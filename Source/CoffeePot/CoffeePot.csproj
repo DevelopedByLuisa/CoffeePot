@@ -1,6 +1,15 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" />
+  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\CoffeePot.Domain\CoffeePot.Domain.csproj" />
     <ProjectReference Include="..\CoffeePot.Infrastructure\CoffeePot.Infrastructure.csproj" />
   </ItemGroup>
+
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
 </Project>

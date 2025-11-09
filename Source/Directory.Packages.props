@@ -4,6 +4,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <!-- CoffeePot -->
+    <PackageVersion Include="Swashbuckle.AspNetCore" Version="9.0.6" />
+
     <!-- Tests -->
     <PackageVersion Include="coverlet.collector" Version="6.0.4" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.0.0" />

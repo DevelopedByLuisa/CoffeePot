@@ -6,11 +6,14 @@ public static class Program
 {
   public static void Main(string[] args)
   {
-    var builder = WebApplication.CreateBuilder(args);
-    var app = builder.Build();
+    var startup = new Startup();
+    var app = startup.BuildWebApplication();
 
+    app.UseSwagger();
+    app.UseSwaggerUI();
+    app.UseRouting();
+    app.MapControllers();
     app.MapGet("/", () => "Hello World!");
-
     app.Run();
   }
 }

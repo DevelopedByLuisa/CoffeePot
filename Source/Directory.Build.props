@@ -1,0 +1,8 @@
+<Project>
+  <PropertyGroup>
+    <OutDir>$(SolutionDir)\..\Bin</OutDir>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+</Project>

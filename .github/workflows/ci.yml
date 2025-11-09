@@ -1,0 +1,31 @@
+name: CI (ubuntu-latest)
+
+on:
+  push:
+    branches-ignore:
+      - main
+      - develop
+  pull_request:
+    branches-ignore:
+      - main
+      - develop
+
+env:
+  SOLUTION: "Source/CoffeePot.sln"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+      
+      - name: Setup .NET Environment
+        uses: actions/setup-dotnet@v5
+
+      - name: Restore NuGet Packages
+        run: dotnet restore $SOLUTION --configfile nuget.config --verbosity normal
+
+      - name: Build Solution
+        run: dotnet build $SOLUTION --no-restore --verbosity normal

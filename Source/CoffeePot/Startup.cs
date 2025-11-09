@@ -38,19 +38,24 @@ public class Startup
       options.SwaggerDoc("v1",
         new OpenApiInfo
         {
-          Version = "v1",
-          Title = "CoffeePot API",
-          Description = "A digital coffee fund for teams.",
           Contact = new OpenApiContact
           {
-            Name = "DevelopedByLuisa",
             Email = "luisa-s-1996@protonmail.com",
+            Name = "DevelopedByLuisa",
+            #pragma warning disable S1075
             Url = new Uri("https://github.com/DevelopedByLuisa")
+            #pragma warning restore S1075
           },
+          Description = "A digital coffee fund for teams.",
           License = new OpenApiLicense
           {
-            Name = "License", Url = new Uri("https://github.com/DevelopedByLuisa/CoffeePot/blob/main/LICENSE")
-          }
+            Name = "License",
+            #pragma warning disable S1075
+            Url = new Uri("https://github.com/DevelopedByLuisa/CoffeePot/blob/main/LICENSE")
+            #pragma warning restore S1075
+          },
+          Title = "CoffeePot API",
+          Version = "v1"
         });
 
       var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";

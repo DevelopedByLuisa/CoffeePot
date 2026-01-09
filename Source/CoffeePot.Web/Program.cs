@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 
-namespace CoffeePot;
+namespace CoffeePot.Web;
 
 public static class Program
 {

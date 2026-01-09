@@ -13,6 +13,6 @@
   <ItemGroup>
     <ProjectReference Include="..\CoffeePot.Domain\CoffeePot.Domain.csproj" />
     <ProjectReference Include="..\CoffeePot.Infrastructure\CoffeePot.Infrastructure.csproj" />
-    <ProjectReference Include="..\CoffeePot\CoffeePot.csproj" />
+    <ProjectReference Include="..\CoffeePot.Web\CoffeePot.Web.csproj" />
   </ItemGroup>
 </Project>

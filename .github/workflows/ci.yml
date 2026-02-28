@@ -29,3 +29,6 @@ jobs:
 
       - name: Build Solution
         run: dotnet build $SOLUTION --no-restore --verbosity normal
+      
+      - name: Execute Tests
+        run: dotnet test $SOLUTION --verbosity normal

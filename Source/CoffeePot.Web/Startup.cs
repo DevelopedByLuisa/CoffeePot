@@ -2,7 +2,9 @@
 using System.IO;
 using System.Reflection;
 using System.Text.Json.Serialization;
+using CoffeePot.Domain.Interfaces;
 using CoffeePot.Infrastructure;
+using CoffeePot.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -15,6 +17,7 @@ namespace CoffeePot.Web;
 public class Startup
 {
   private readonly WebApplicationBuilder _builder = WebApplication.CreateBuilder();
+  private readonly IConfigurationRoot _configuration = LoadAppSettings();
 
   public WebApplication BuildWebApplication()
   {
@@ -30,6 +33,7 @@ public class Startup
     }
 
     InitializeDatabase();
+    InitializeRepositories();
 
     return _builder.Build();
   }
@@ -47,17 +51,12 @@ public class Startup
           {
             Email = "luisa-s-1996@protonmail.com",
             Name = "DevelopedByLuisa",
-#pragma warning disable S1075
             Url = new Uri("https://github.com/DevelopedByLuisa")
-#pragma warning restore S1075
           },
           Description = "A digital coffee fund for teams.",
           License = new OpenApiLicense
           {
-            Name = "License",
-#pragma warning disable S1075
-            Url = new Uri("https://github.com/DevelopedByLuisa/CoffeePot/blob/main/LICENSE")
-#pragma warning restore S1075
+            Name = "License", Url = new Uri("https://github.com/DevelopedByLuisa/CoffeePot/blob/main/LICENSE")
           },
           Title = "CoffeePot API",
           Version = "v1"
@@ -68,12 +67,25 @@ public class Startup
     });
   }
 
+  private static IConfigurationRoot LoadAppSettings()
+  {
+    return new ConfigurationBuilder()
+      .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+      .AddJsonFile("appsettings.json")
+      .Build();
+  }
+
   private void InitializeDatabase()
   {
-    var connectionString = _builder.Configuration.GetConnectionString("CoffeePotDb");
+    var connectionString = _configuration.GetConnectionString("MariaDB");
     var serverVersion = ServerVersion.AutoDetect(connectionString);
 
-    _builder.Services.AddDbContext<ApplicationContext>(optionsBuilder =>
-      optionsBuilder.UseMySql(connectionString, serverVersion));
+    _builder.Services.AddDbContext<ApplicationContext>(dbContextOptionsBuilder =>
+      dbContextOptionsBuilder.UseMySql(connectionString, serverVersion));
+  }
+
+  private void InitializeRepositories()
+  {
+    _builder.Services.AddTransient<IOrderRepository, OrderRepository>();
   }
 }

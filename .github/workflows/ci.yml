@@ -31,4 +31,4 @@ jobs:
         run: dotnet build $SOLUTION --no-restore --verbosity normal
       
       - name: Execute Tests
-        run: dotnet test $SOLUTION --verbosity normal
+        run: dotnet test $SOLUTION --no-restore --verbosity normal

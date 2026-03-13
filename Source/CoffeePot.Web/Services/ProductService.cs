@@ -4,26 +4,26 @@ using System.Threading;
 using System.Threading.Tasks;
 using CoffeePot.Domain.Enumerations;
 using CoffeePot.Domain.Interfaces;
-using CoffeePot.Web.DTOs;
+using CoffeePot.Web.DTOs.Product;
 using CoffeePot.Web.Mappers;
 
 namespace CoffeePot.Web.Services;
 
 public class ProductService(IProductRepository productRepository)
 {
-  public async Task<ProductDto> CreateProductAsync(ProductDto productDto, CancellationToken cancellationToken)
+  public async Task<ProductDto> CreateProductAsync(WriteProductDto writeProductDto, CancellationToken cancellationToken)
   {
-    var product = ProductMapper.ConvertProductDtoIntoProduct(productDto);
+    var product = ProductMapper.ConvertWriteProductDtoIntoProduct(writeProductDto);
     var processedProduct = await productRepository.CreateProductAsync(product, cancellationToken);
     return ProductMapper.ConvertProductIntoProductDto(processedProduct);
   }
 
-  public async Task<ProductDto> UpdateProductAsync(int id, ProductDto productDto, CancellationToken cancellationToken)
+  public async Task<ProductDto> UpdateProductAsync(int id, WriteProductDto writeProductDto, CancellationToken cancellationToken)
   {
     var loadedProduct = await productRepository.GetProductAsync(id, cancellationToken);
-    loadedProduct.Name = productDto.Name;
-    loadedProduct.Description = productDto.Description;
-    loadedProduct.UnitPrice = productDto.UnitPrice;
+    loadedProduct.Name = writeProductDto.Name;
+    loadedProduct.Description = writeProductDto.Description;
+    loadedProduct.UnitPrice = writeProductDto.UnitPrice;
     loadedProduct.RegisterChange();
 
     var updatedProduct = await productRepository.UpdateProductAsync(id, loadedProduct, cancellationToken);

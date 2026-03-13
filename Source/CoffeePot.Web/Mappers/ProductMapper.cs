@@ -1,5 +1,5 @@
 ﻿using CoffeePot.Domain.Entities;
-using CoffeePot.Web.DTOs;
+using CoffeePot.Web.DTOs.Product;
 
 namespace CoffeePot.Web.Mappers;
 
@@ -18,6 +18,20 @@ public static class ProductMapper
       Description = productDto.Description,
       UnitPrice = productDto.UnitPrice,
       Status = productDto.Status
+    };
+  }
+
+  /// <summary>
+  ///   Converts a WriteProductDto into a Product.
+  /// </summary>
+  /// <param name="writeProductDto">The WriteProductDto.</param>
+  public static Product ConvertWriteProductDtoIntoProduct(WriteProductDto writeProductDto)
+  {
+    return new Product
+    {
+      Name = writeProductDto.Name,
+      Description = writeProductDto.Description,
+      UnitPrice = writeProductDto.UnitPrice
     };
   }
 

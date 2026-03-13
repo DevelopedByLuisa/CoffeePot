@@ -1,6 +1,6 @@
 ﻿using CoffeePot.Domain.Entities;
 using CoffeePot.Domain.Enumerations;
-using CoffeePot.Web.DTOs;
+using CoffeePot.Web.DTOs.Product;
 using CoffeePot.Web.Mappers;
 using Xunit;
 

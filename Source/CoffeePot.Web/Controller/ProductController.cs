@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using CoffeePot.Domain.Interfaces;
-using CoffeePot.Web.DTOs;
+using CoffeePot.Web.DTOs.Product;
 using CoffeePot.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -45,7 +45,7 @@ public class ProductController(IProductRepository productRepository, ILogger<Pro
   /// <param name="productDto">The ProductDto.</param>
   /// <param name="cancellationToken">The CancellationToken.</param>
   [HttpPost]
-  public async Task<ActionResult<ProductDto>> CreateProductAsync([FromBody] ProductDto productDto,
+  public async Task<ActionResult<ProductDto>> CreateProductAsync([FromBody] WriteProductDto productDto,
     CancellationToken cancellationToken)
   {
     return await _productService.CreateProductAsync(productDto, cancellationToken);
@@ -58,14 +58,9 @@ public class ProductController(IProductRepository productRepository, ILogger<Pro
   /// <param name="productDto">The ProductDto.</param>
   /// <param name="cancellationToken">The CancellationToken.</param>
   [HttpPut("{id}")]
-  public async Task<ActionResult<ProductDto>> UpdateProductAsync(int id, [FromBody] ProductDto productDto,
+  public async Task<ActionResult<ProductDto>> UpdateProductAsync(int id, [FromBody] WriteProductDto productDto,
     CancellationToken cancellationToken)
   {
-    if (id != productDto.Id)
-    {
-      return BadRequest("The ID entered does not match the ID of the product!");
-    }
-
     return await _productService.UpdateProductAsync(id, productDto, cancellationToken);
   }
 

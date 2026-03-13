@@ -1,6 +1,6 @@
 ﻿using CoffeePot.Domain.Enumerations;
 
-namespace CoffeePot.Web.DTOs;
+namespace CoffeePot.Web.DTOs.Product;
 
 public record ProductDto(
   int Id,

@@ -5,9 +5,9 @@ using Serilog;
 
 namespace CoffeePot.Infrastructure.Extensions;
 
-public static class CoffeePotInfrastructureExtension
+public static class LoggingExtension
 {
-  public static IServiceCollection AddCoffeePotInfrastructure(
+  public static IServiceCollection InitializeLogging(
     this IServiceCollection services)
   {
     Log.Logger = new LoggerConfiguration()

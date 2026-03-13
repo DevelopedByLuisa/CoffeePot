@@ -18,12 +18,12 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
 
     builder.Property(product => product.Name)
       .HasColumnName("name")
-      .HasMaxLength(55)
+      .HasMaxLength(255)
       .IsRequired();
 
     builder.Property(product => product.Description)
       .HasColumnName("description")
-      .HasMaxLength(55)
+      .HasMaxLength(255)
       .IsRequired();
 
     builder.Property(product => product.UnitPrice)

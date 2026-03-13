@@ -1,6 +1,5 @@
 ﻿using CoffeePot.Domain.Entities;
 using CoffeePot.Domain.Enumerations;
-using CoffeePot.Web.DTOs.Product;
 using CoffeePot.Web.Mappers;
 using Xunit;
 
@@ -20,19 +19,5 @@ public class ProductMapperTests
     Assert.Equal(product.Description, productDto.Description);
     Assert.Equal(product.UnitPrice, productDto.UnitPrice);
     Assert.Equal(product.Status, productDto.Status);
-  }
-
-  [Fact]
-  public void ConvertProductDtoIntoProduct_ShouldMapPropertiesCorrectly()
-  {
-    var productDto = new ProductDto(12, "Some Name", "Some Description", 9.99M, Status.Active);
-
-    var product = ProductMapper.ConvertProductDtoIntoProduct(productDto);
-
-    Assert.Equal(productDto.Id, product.Id);
-    Assert.Equal(productDto.Name, product.Name);
-    Assert.Equal(productDto.Description, product.Description);
-    Assert.Equal(productDto.UnitPrice, product.UnitPrice);
-    Assert.Equal(productDto.Status, product.Status);
   }
 }

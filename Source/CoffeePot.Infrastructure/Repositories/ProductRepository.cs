@@ -7,10 +7,11 @@ using CoffeePot.Domain.Entities;
 using CoffeePot.Domain.Exceptions;
 using CoffeePot.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace CoffeePot.Infrastructure.Repositories;
 
-public class ProductRepository(ApplicationContext applicationContext)
+public class ProductRepository(ApplicationContext applicationContext, ILogger<ProductRepository> logger)
   : IProductRepository
 {
   public async Task<IEnumerable<Product>> GetProductsAsync(CancellationToken cancellationToken)
@@ -36,27 +37,13 @@ public class ProductRepository(ApplicationContext applicationContext)
     }
     catch (Exception e)
     {
-      Console.WriteLine(e);
+      logger.LogError(e, e.Message);
       throw;
     }
   }
 
-  public async Task<Product> UpdateProductAsync(int id, Product product, CancellationToken cancellationToken)
+  public async Task UpdateProductAsync(CancellationToken cancellationToken)
   {
-    var loadedProduct = await applicationContext.Products.Where(x => x.Id == id)
-      .FirstOrDefaultAsync(cancellationToken);
-
-    product = loadedProduct ?? throw new NotFoundException();
-
-    try
-    {
-      await applicationContext.SaveChangesAsync(cancellationToken);
-      return product;
-    }
-    catch (Exception e)
-    {
-      Console.WriteLine(e);
-      throw;
-    }
+    await applicationContext.SaveChangesAsync(cancellationToken);
   }
 }

@@ -26,8 +26,8 @@ public class ProductService(IProductRepository productRepository)
     loadedProduct.UnitPrice = writeProductDto.UnitPrice;
     loadedProduct.RegisterChange();
 
-    var updatedProduct = await productRepository.UpdateProductAsync(id, loadedProduct, cancellationToken);
-    return ProductMapper.ConvertProductIntoProductDto(updatedProduct);
+    await productRepository.UpdateProductAsync(cancellationToken);
+    return ProductMapper.ConvertProductIntoProductDto(loadedProduct);
   }
 
   public async Task<ProductDto> DeleteProductAsync(int id, CancellationToken cancellationToken)
@@ -36,8 +36,8 @@ public class ProductService(IProductRepository productRepository)
     loadedProduct.Status = Status.Deleted;
     loadedProduct.RegisterChange();
 
-    var deletedProduct = await productRepository.UpdateProductAsync(id, loadedProduct, cancellationToken);
-    return ProductMapper.ConvertProductIntoProductDto(deletedProduct);
+    await productRepository.UpdateProductAsync(cancellationToken);
+    return ProductMapper.ConvertProductIntoProductDto(loadedProduct);
   }
 
   public async Task<IEnumerable<ProductDto>> GetProductsAsync(bool includeDeleted, CancellationToken cancellationToken)

@@ -6,22 +6,6 @@ namespace CoffeePot.Web.Mappers;
 public static class ProductMapper
 {
   /// <summary>
-  ///   Converts a ProductDto into a Product.
-  /// </summary>
-  /// <param name="productDto">The ProductDto.</param>
-  public static Product ConvertProductDtoIntoProduct(ProductDto productDto)
-  {
-    return new Product
-    {
-      Id = productDto.Id,
-      Name = productDto.Name,
-      Description = productDto.Description,
-      UnitPrice = productDto.UnitPrice,
-      Status = productDto.Status
-    };
-  }
-
-  /// <summary>
   ///   Converts a WriteProductDto into a Product.
   /// </summary>
   /// <param name="writeProductDto">The WriteProductDto.</param>

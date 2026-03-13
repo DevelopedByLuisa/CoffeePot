@@ -23,7 +23,7 @@ public class ProductController(IProductRepository productRepository, ILogger<Pro
   /// <param name="includeDeleted">Includes deleted products.</param>
   [HttpGet]
   public async Task<ActionResult<IEnumerable<ProductDto>>> GetProductsAsync(CancellationToken cancellationToken,
-    bool includeDeleted = false)
+    bool includeDeleted)
   {
     return Ok(await _productService.GetProductsAsync(includeDeleted, cancellationToken));
   }

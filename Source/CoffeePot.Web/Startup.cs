@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Text.Json.Serialization;
 using CoffeePot.Domain.Interfaces;
 using CoffeePot.Infrastructure;
+using CoffeePot.Infrastructure.Extensions;
 using CoffeePot.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
@@ -21,11 +22,9 @@ public class Startup
 
   public WebApplication BuildWebApplication()
   {
-    _builder.Services.AddControllers();
-    _builder.Services.ConfigureHttpJsonOptions(options =>
-    {
-      options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
-    });
+    _builder.Services.AddCoffeePotInfrastructure();
+    _builder.Services.AddControllers()
+      .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
     if (_builder.Environment.IsDevelopment())
     {
@@ -41,7 +40,6 @@ public class Startup
   private void InitializeSwagger()
   {
     _builder.Services.AddEndpointsApiExplorer();
-    _builder.Services.AddSwaggerGen();
     _builder.Services.AddSwaggerGen(options =>
     {
       options.SwaggerDoc("v1",
@@ -78,14 +76,22 @@ public class Startup
   private void InitializeDatabase()
   {
     var connectionString = _configuration.GetConnectionString("MariaDB");
-    var serverVersion = ServerVersion.AutoDetect(connectionString);
 
-    _builder.Services.AddDbContext<ApplicationContext>(dbContextOptionsBuilder =>
-      dbContextOptionsBuilder.UseMySql(connectionString, serverVersion));
+    try
+    {
+      var serverVersion = ServerVersion.AutoDetect(connectionString);
+      _builder.Services.AddDbContext<ApplicationContext>(dbContextOptionsBuilder =>
+        dbContextOptionsBuilder.UseMySql(connectionString, serverVersion));
+    }
+    catch (Exception e)
+    {
+      Console.WriteLine(e.Message);
+      throw;
+    }
   }
 
   private void InitializeRepositories()
   {
-    _builder.Services.AddTransient<IOrderRepository, OrderRepository>();
+    _builder.Services.AddTransient<IProductRepository, ProductRepository>();
   }
 }

@@ -1,7 +1,10 @@
-﻿namespace CoffeePot.Web.DTOs;
+﻿using CoffeePot.Domain.Enumerations;
+
+namespace CoffeePot.Web.DTOs;
 
 public record ProductDto(
   int Id,
   string Name,
   string Description,
-  double UnitPrice);
+  decimal UnitPrice,
+  Status Status);

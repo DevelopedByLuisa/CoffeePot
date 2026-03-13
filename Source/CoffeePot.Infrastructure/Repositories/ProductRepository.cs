@@ -1,40 +1,62 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CoffeePot.Domain.Entities;
+using CoffeePot.Domain.Exceptions;
 using CoffeePot.Domain.Interfaces;
-using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 
 namespace CoffeePot.Infrastructure.Repositories;
 
-public class ProductRepository(ApplicationContext applicationContext, ILogger<ProductRepository> logger)
+public class ProductRepository(ApplicationContext applicationContext)
   : IProductRepository
 {
-  private readonly ApplicationContext _applicationContext = applicationContext;
-  private readonly ILogger<ProductRepository> _logger = logger;
-
   public async Task<IEnumerable<Product>> GetProductsAsync(CancellationToken cancellationToken)
   {
-    throw new System.NotImplementedException();
+    return await applicationContext.Products.ToListAsync(cancellationToken);
   }
 
   public async Task<Product> GetProductAsync(int id, CancellationToken cancellationToken)
   {
-    throw new System.NotImplementedException();
+    var loadedProduct = await applicationContext.Products.Where(x => x.Id == id)
+      .FirstOrDefaultAsync(cancellationToken);
+
+    return loadedProduct ?? throw new NotFoundException();
   }
 
   public async Task<Product> CreateProductAsync(Product product, CancellationToken cancellationToken)
   {
-    throw new System.NotImplementedException();
+    try
+    {
+      applicationContext.Products.Add(product);
+      await applicationContext.SaveChangesAsync(cancellationToken);
+      return product;
+    }
+    catch (Exception e)
+    {
+      Console.WriteLine(e);
+      throw;
+    }
   }
 
   public async Task<Product> UpdateProductAsync(int id, Product product, CancellationToken cancellationToken)
   {
-    throw new System.NotImplementedException();
-  }
+    var loadedProduct = await applicationContext.Products.Where(x => x.Id == id)
+      .FirstOrDefaultAsync(cancellationToken);
 
-  public async Task<Product> DeleteProductAsync(int id, CancellationToken cancellationToken)
-  {
-    throw new System.NotImplementedException();
+    product = loadedProduct ?? throw new NotFoundException();
+
+    try
+    {
+      await applicationContext.SaveChangesAsync(cancellationToken);
+      return product;
+    }
+    catch (Exception e)
+    {
+      Console.WriteLine(e);
+      throw;
+    }
   }
 }

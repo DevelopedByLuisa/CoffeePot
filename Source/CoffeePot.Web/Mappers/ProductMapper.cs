@@ -1,9 +1,9 @@
 ﻿using CoffeePot.Domain.Entities;
 using CoffeePot.Web.DTOs;
 
-namespace CoffeePot.Web.Converter;
+namespace CoffeePot.Web.Mappers;
 
-public static class EntityConverter
+public static class ProductMapper
 {
   /// <summary>
   ///   Converts a ProductDto into a Product.
@@ -16,7 +16,8 @@ public static class EntityConverter
       Id = productDto.Id,
       Name = productDto.Name,
       Description = productDto.Description,
-      UnitPrice = productDto.UnitPrice
+      UnitPrice = productDto.UnitPrice,
+      Status = productDto.Status
     };
   }
 
@@ -26,6 +27,6 @@ public static class EntityConverter
   /// <param name="product">The product.</param>
   public static ProductDto ConvertProductIntoProductDto(Product product)
   {
-    return new ProductDto(product.Id, product.Name, product.Description, product.UnitPrice);
+    return new ProductDto(product.Id, product.Name, product.Description, product.UnitPrice, product.Status);
   }
 }

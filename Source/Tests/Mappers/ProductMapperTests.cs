@@ -1,35 +1,38 @@
 ﻿using CoffeePot.Domain.Entities;
-using CoffeePot.Web.Converter;
+using CoffeePot.Domain.Enumerations;
 using CoffeePot.Web.DTOs;
+using CoffeePot.Web.Mappers;
 using Xunit;
 
-namespace Tests;
+namespace Tests.Mappers;
 
-public class EntityConverterTests
+public class ProductMapperTests
 {
   [Fact]
   public void ConvertProductIntoProductDto_ShouldMapPropertiesCorrectly()
   {
-    var product = new Product { Id = 419, Name = "Some Name", Description = "Some Description", UnitPrice = 9.99 };
+    var product = new Product { Id = 419, Name = "Some Name", Description = "Some Description", UnitPrice = 9.99M, Status = Status.Active};
 
-    var productDto = EntityConverter.ConvertProductIntoProductDto(product);
+    var productDto = ProductMapper.ConvertProductIntoProductDto(product);
 
     Assert.Equal(product.Id, productDto.Id);
     Assert.Equal(product.Name, productDto.Name);
     Assert.Equal(product.Description, productDto.Description);
     Assert.Equal(product.UnitPrice, productDto.UnitPrice);
+    Assert.Equal(product.Status, productDto.Status);
   }
 
   [Fact]
   public void ConvertProductDtoIntoProduct_ShouldMapPropertiesCorrectly()
   {
-    var productDto = new ProductDto(12, "Some Name", "Some Description", 9.99);
+    var productDto = new ProductDto(12, "Some Name", "Some Description", 9.99M, Status.Active);
 
-    var product = EntityConverter.ConvertProductDtoIntoProduct(productDto);
+    var product = ProductMapper.ConvertProductDtoIntoProduct(productDto);
 
     Assert.Equal(productDto.Id, product.Id);
     Assert.Equal(productDto.Name, product.Name);
     Assert.Equal(productDto.Description, product.Description);
     Assert.Equal(productDto.UnitPrice, product.UnitPrice);
+    Assert.Equal(productDto.Status, product.Status);
   }
 }

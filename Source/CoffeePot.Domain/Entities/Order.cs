@@ -1,4 +1,4 @@
-﻿using CoffeePot.Domain.Common;
+﻿using CoffeePot.Domain.Entities.Common;
 
 namespace CoffeePot.Domain.Entities;
 

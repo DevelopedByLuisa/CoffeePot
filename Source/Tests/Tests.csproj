@@ -11,8 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CoffeePot.API\CoffeePot.API.csproj" />
     <ProjectReference Include="..\CoffeePot.Domain\CoffeePot.Domain.csproj" />
     <ProjectReference Include="..\CoffeePot.Infrastructure\CoffeePot.Infrastructure.csproj" />
-    <ProjectReference Include="..\CoffeePot.Web\CoffeePot.Web.csproj" />
   </ItemGroup>
 </Project>

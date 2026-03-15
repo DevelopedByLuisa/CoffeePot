@@ -19,12 +19,12 @@ public class ProductRepository(ApplicationContext applicationContext, ILogger<Pr
     return await applicationContext.Products.ToListAsync(cancellationToken);
   }
 
-  public async Task<Product> GetProductAsync(int id, CancellationToken cancellationToken)
+  public async Task<Product> GetProductByIdAsync(int id, CancellationToken cancellationToken)
   {
     var loadedProduct = await applicationContext.Products.Where(x => x.Id == id)
       .FirstOrDefaultAsync(cancellationToken);
 
-    return loadedProduct ?? throw new NotFoundException();
+    return loadedProduct ?? throw new EntityNotFoundException($"No product with the ID {id} could be found.");
   }
 
   public async Task<Product> CreateProductAsync(Product product, CancellationToken cancellationToken)
@@ -42,7 +42,7 @@ public class ProductRepository(ApplicationContext applicationContext, ILogger<Pr
     }
   }
 
-  public async Task UpdateProductAsync(CancellationToken cancellationToken)
+  public async Task SaveChangesAsync(CancellationToken cancellationToken)
   {
     await applicationContext.SaveChangesAsync(cancellationToken);
   }

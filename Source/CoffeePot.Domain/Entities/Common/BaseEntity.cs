@@ -14,4 +14,10 @@ public abstract class BaseEntity
   {
     ChangeDate = DateTime.Now;
   }
+
+  public void Delete()
+  {
+    Status = Status.Deleted;
+    ChangeDate = DateTime.Now;
+  }
 }

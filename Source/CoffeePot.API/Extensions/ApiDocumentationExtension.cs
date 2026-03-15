@@ -4,7 +4,7 @@ using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi;
 
-namespace CoffeePot.Web.Extensions;
+namespace CoffeePot.API.Extensions;
 
 public static class ApiDocumentationExtension
 {

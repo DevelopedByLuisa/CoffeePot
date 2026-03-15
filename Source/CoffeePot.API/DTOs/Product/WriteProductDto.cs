@@ -1,4 +1,4 @@
-﻿namespace CoffeePot.Web.DTOs.Product;
+﻿namespace CoffeePot.API.DTOs.Product;
 
 public record WriteProductDto(
   string Name,

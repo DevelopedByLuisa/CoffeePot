@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using CoffeePot.API.DTOs.Product;
+using CoffeePot.API.Services;
 using CoffeePot.Domain.Interfaces;
-using CoffeePot.Web.DTOs.Product;
-using CoffeePot.Web.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace CoffeePot.Web.Controller;
+namespace CoffeePot.API.Controller;
 
 [ApiController]
 [Route("api/products")]
@@ -19,11 +19,11 @@ public class ProductController(IProductRepository productRepository, ILogger<Pro
   /// <summary>
   ///   Returns a list of products.
   /// </summary>
+  /// <param name="includeDeleted">Include deleted products.</param>
   /// <param name="cancellationToken">The CancellationToken.</param>
-  /// <param name="includeDeleted">Includes deleted products.</param>
   [HttpGet]
-  public async Task<ActionResult<IEnumerable<ProductDto>>> GetProductsAsync(CancellationToken cancellationToken,
-    bool includeDeleted)
+  public async Task<ActionResult<IEnumerable<ProductDto>>> GetProductsAsync(bool includeDeleted,
+    CancellationToken cancellationToken)
   {
     return Ok(await _productService.GetProductsAsync(includeDeleted, cancellationToken));
   }
@@ -42,26 +42,26 @@ public class ProductController(IProductRepository productRepository, ILogger<Pro
   /// <summary>
   ///   Creates a product.
   /// </summary>
-  /// <param name="productDto">The ProductDto.</param>
+  /// <param name="writeProductDto">The WriteProductDto.</param>
   /// <param name="cancellationToken">The CancellationToken.</param>
   [HttpPost]
-  public async Task<ActionResult<ProductDto>> CreateProductAsync([FromBody] WriteProductDto productDto,
+  public async Task<ActionResult<ProductDto>> CreateProductAsync([FromBody] WriteProductDto writeProductDto,
     CancellationToken cancellationToken)
   {
-    return await _productService.CreateProductAsync(productDto, cancellationToken);
+    return await _productService.CreateProductAsync(writeProductDto, cancellationToken);
   }
 
   /// <summary>
   ///   Updates a product.
   /// </summary>
   /// <param name="id">The Id.</param>
-  /// <param name="productDto">The ProductDto.</param>
+  /// <param name="writeProductDto">The WriteProductDto.</param>
   /// <param name="cancellationToken">The CancellationToken.</param>
   [HttpPut("{id}")]
-  public async Task<ActionResult<ProductDto>> UpdateProductAsync(int id, [FromBody] WriteProductDto productDto,
+  public async Task<ActionResult<ProductDto>> UpdateProductAsync(int id, [FromBody] WriteProductDto writeProductDto,
     CancellationToken cancellationToken)
   {
-    return await _productService.UpdateProductAsync(id, productDto, cancellationToken);
+    return await _productService.UpdateProductAsync(id, writeProductDto, cancellationToken);
   }
 
   /// <summary>

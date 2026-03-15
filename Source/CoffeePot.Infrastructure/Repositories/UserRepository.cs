@@ -19,12 +19,12 @@ public class UserRepository(ApplicationContext applicationContext, ILogger<UserR
     return await applicationContext.Users.ToListAsync(cancellationToken);
   }
 
-  public async Task<User> GetUserAsync(int id, CancellationToken cancellationToken)
+  public async Task<User> GetUserByIdAsync(int id, CancellationToken cancellationToken)
   {
     var loadedUser = await applicationContext.Users.Where(x => x.Id == id)
       .FirstOrDefaultAsync(cancellationToken);
 
-    return loadedUser ?? throw new NotFoundException();
+    return loadedUser ?? throw new EntityNotFoundException($"No user with the ID {id} could be found.");
   }
 
   public async Task<User> CreateUserAsync(User user, CancellationToken cancellationToken)
@@ -42,7 +42,7 @@ public class UserRepository(ApplicationContext applicationContext, ILogger<UserR
     }
   }
 
-  public async Task UpdateUserAsync(CancellationToken cancellationToken)
+  public async Task SaveChangesAsync(CancellationToken cancellationToken)
   {
     await applicationContext.SaveChangesAsync(cancellationToken);
   }

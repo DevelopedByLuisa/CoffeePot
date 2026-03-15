@@ -43,7 +43,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 
     builder.Property(user => user.Status)
       .HasColumnName("status")
-      .HasConversion<int>() // Enum -> int
+      .HasConversion<int>()
       .IsRequired();
   }
 }

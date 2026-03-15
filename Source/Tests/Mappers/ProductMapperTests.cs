@@ -1,6 +1,6 @@
 ﻿using CoffeePot.Domain.Entities;
 using CoffeePot.Domain.Enumerations;
-using CoffeePot.Web.Mappers;
+using CoffeePot.API.Mappers;
 using Xunit;
 
 namespace Tests.Mappers;

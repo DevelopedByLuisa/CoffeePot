@@ -1,13 +1,14 @@
 using System;
 using System.Text.Json.Serialization;
+using CoffeePot.API.Extensions;
 using CoffeePot.Infrastructure.Extensions;
-using CoffeePot.Web.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
-namespace CoffeePot.Web;
+namespace CoffeePot.API;
 
 public static class Program
 {
@@ -22,8 +23,13 @@ public static class Program
                            throw new InvalidOperationException(
                              "The connection string for MariaDB could not be loaded.");
     var enableApiDocumentation = appSettings.GetValue<bool>("EnableApiDocumentation");
+    var enableWindowsService = appSettings.GetValue<bool>("EnableWindowsService");
 
     var builder = WebApplication.CreateBuilder(args);
+    if (enableWindowsService)
+    {
+      builder.Host.UseWindowsService();
+    }
     builder.Services.InitializeLogging();
     builder.Services.InitializeDatabase(connectionString);
     builder.Services.InitializeRepositories();
@@ -34,6 +40,16 @@ public static class Program
     {
       builder.Services.InitializeApiDocumentation();
     }
+    
+    builder.Services.AddCors(options =>
+    {
+      options.AddPolicy("AllowAll", policy =>
+      {
+        policy.AllowAnyOrigin()
+          .AllowAnyMethod()
+          .AllowAnyHeader();
+      });
+    });
 
     var app = builder.Build();
 
@@ -43,9 +59,6 @@ public static class Program
       app.UseSwaggerUI();
     }
 
-    app.UseRouting();
-    app.MapControllers();
-    app.MapGet("/", () => "System is up!");
     app.UseExceptionHandler(appError =>
     {
       appError.Run(async context =>
@@ -60,6 +73,10 @@ public static class Program
         });
       });
     });
+    app.UseCors("AllowAll");
+    app.UseRouting();
+    app.MapControllers();
+    app.MapGet("/", () => "System is up!");
 
     app.Run();
   }

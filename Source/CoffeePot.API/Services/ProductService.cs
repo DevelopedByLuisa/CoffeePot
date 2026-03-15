@@ -2,12 +2,12 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using CoffeePot.API.DTOs.Product;
+using CoffeePot.API.Mappers;
 using CoffeePot.Domain.Enumerations;
 using CoffeePot.Domain.Interfaces;
-using CoffeePot.Web.DTOs.Product;
-using CoffeePot.Web.Mappers;
 
-namespace CoffeePot.Web.Services;
+namespace CoffeePot.API.Services;
 
 public class ProductService(IProductRepository productRepository)
 {
@@ -18,25 +18,22 @@ public class ProductService(IProductRepository productRepository)
     return ProductMapper.ConvertProductIntoProductDto(processedProduct);
   }
 
-  public async Task<ProductDto> UpdateProductAsync(int id, WriteProductDto writeProductDto, CancellationToken cancellationToken)
+  public async Task<ProductDto> UpdateProductAsync(int id, WriteProductDto writeProductDto,
+    CancellationToken cancellationToken)
   {
-    var loadedProduct = await productRepository.GetProductAsync(id, cancellationToken);
-    loadedProduct.Name = writeProductDto.Name;
-    loadedProduct.Description = writeProductDto.Description;
-    loadedProduct.UnitPrice = writeProductDto.UnitPrice;
-    loadedProduct.RegisterChange();
+    var loadedProduct = await productRepository.GetProductByIdAsync(id, cancellationToken);
+    loadedProduct.UpdateProduct(writeProductDto.Name, writeProductDto.Description, writeProductDto.UnitPrice);
 
-    await productRepository.UpdateProductAsync(cancellationToken);
+    await productRepository.SaveChangesAsync(cancellationToken);
     return ProductMapper.ConvertProductIntoProductDto(loadedProduct);
   }
 
   public async Task<ProductDto> DeleteProductAsync(int id, CancellationToken cancellationToken)
   {
-    var loadedProduct = await productRepository.GetProductAsync(id, cancellationToken);
-    loadedProduct.Status = Status.Deleted;
-    loadedProduct.RegisterChange();
+    var loadedProduct = await productRepository.GetProductByIdAsync(id, cancellationToken);
+    loadedProduct.Delete();
 
-    await productRepository.UpdateProductAsync(cancellationToken);
+    await productRepository.SaveChangesAsync(cancellationToken);
     return ProductMapper.ConvertProductIntoProductDto(loadedProduct);
   }
 
@@ -49,13 +46,14 @@ public class ProductService(IProductRepository productRepository)
       return loadedProducts.Select(ProductMapper.ConvertProductIntoProductDto);
     }
 
-    return loadedProducts.Where(product => product.Status != Status.Deleted)
+    return loadedProducts
+      .Where(product => product.Status != Status.Deleted)
       .Select(ProductMapper.ConvertProductIntoProductDto);
   }
 
   public async Task<ProductDto> GetProductAsync(int id, CancellationToken cancellationToken)
   {
-    var loadedProduct = await productRepository.GetProductAsync(id, cancellationToken);
+    var loadedProduct = await productRepository.GetProductByIdAsync(id, cancellationToken);
     return ProductMapper.ConvertProductIntoProductDto(loadedProduct);
   }
 }

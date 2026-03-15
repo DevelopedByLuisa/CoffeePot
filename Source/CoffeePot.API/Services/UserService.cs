@@ -2,14 +2,14 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using CoffeePot.API.DTOs.User;
+using CoffeePot.API.Mappers;
 using CoffeePot.Domain.Enumerations;
-using CoffeePot.Infrastructure.Repositories;
-using CoffeePot.Web.DTOs.User;
-using CoffeePot.Web.Mappers;
+using CoffeePot.Domain.Interfaces;
 
-namespace CoffeePot.Web.Services;
+namespace CoffeePot.API.Services;
 
-public class UserService(UserRepository userRepository)
+public class UserService(IUserRepository userRepository)
 {
   public async Task<UserDto> CreateUserAsync(WriteUserDto writeUserDto, CancellationToken cancellationToken)
   {
@@ -20,23 +20,19 @@ public class UserService(UserRepository userRepository)
 
   public async Task<UserDto> UpdateUserAsync(int id, WriteUserDto writeUserDto, CancellationToken cancellationToken)
   {
-    var loadedUser = await userRepository.GetUserAsync(id, cancellationToken);
-    loadedUser.Forename = writeUserDto.Forename;
-    loadedUser.Surname = writeUserDto.Surname;
-    loadedUser.Email = writeUserDto.Email;
-    loadedUser.RegisterChange();
+    var loadedUser = await userRepository.GetUserByIdAsync(id, cancellationToken);
+    loadedUser.UpdateUser(writeUserDto.Forename, writeUserDto.Surname, writeUserDto.Email);
 
-    await userRepository.UpdateUserAsync(cancellationToken);
+    await userRepository.SaveChangesAsync(cancellationToken);
     return UserMapper.ConvertUserIntoUserDto(loadedUser);
   }
 
   public async Task<UserDto> DeleteUserAsync(int id, CancellationToken cancellationToken)
   {
-    var loadedUser = await userRepository.GetUserAsync(id, cancellationToken);
-    loadedUser.Status = Status.Deleted;
-    loadedUser.RegisterChange();
+    var loadedUser = await userRepository.GetUserByIdAsync(id, cancellationToken);
+    loadedUser.Delete();
 
-    await userRepository.UpdateUserAsync(cancellationToken);
+    await userRepository.SaveChangesAsync(cancellationToken);
     return UserMapper.ConvertUserIntoUserDto(loadedUser);
   }
 
@@ -49,7 +45,14 @@ public class UserService(UserRepository userRepository)
       return loadedUsers.Select(UserMapper.ConvertUserIntoUserDto);
     }
 
-    return loadedUsers.Where(user => user.Status != Status.Deleted)
+    return loadedUsers
+      .Where(user => user.Status != Status.Deleted)
       .Select(UserMapper.ConvertUserIntoUserDto);
+  }
+
+  public async Task<UserDto> GetUserAsync(int id, CancellationToken cancellationToken)
+  {
+    var loadedUser = await userRepository.GetUserByIdAsync(id, cancellationToken);
+    return UserMapper.ConvertUserIntoUserDto(loadedUser);
   }
 }

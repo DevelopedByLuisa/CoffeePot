@@ -1,7 +1,7 @@
-﻿using CoffeePot.Domain.Entities;
-using CoffeePot.Web.DTOs.User;
+﻿using CoffeePot.API.DTOs.User;
+using CoffeePot.Domain.Entities;
 
-namespace CoffeePot.Web.Mappers;
+namespace CoffeePot.API.Mappers;
 
 public static class UserMapper
 {

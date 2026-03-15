@@ -6,20 +6,21 @@ using System.Threading.Tasks;
 using CoffeePot.Domain.Entities;
 using CoffeePot.Domain.Exceptions;
 using CoffeePot.Domain.Interfaces;
+using CoffeePot.Domain.Interfaces.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace CoffeePot.Infrastructure.Repositories;
 
 public class UserRepository(ApplicationContext applicationContext, ILogger<UserRepository> logger)
-  : IUserRepository
+  : IGenericRepository<User>
 {
-  public async Task<IEnumerable<User>> GetUsersAsync(CancellationToken cancellationToken)
+  public async Task<IEnumerable<User>> GetAsync(CancellationToken cancellationToken)
   {
     return await applicationContext.Users.ToListAsync(cancellationToken);
   }
 
-  public async Task<User> GetUserByIdAsync(int id, CancellationToken cancellationToken)
+  public async Task<User> GetByIdAsync(int id, CancellationToken cancellationToken)
   {
     var loadedUser = await applicationContext.Users.Where(x => x.Id == id)
       .FirstOrDefaultAsync(cancellationToken);
@@ -27,13 +28,13 @@ public class UserRepository(ApplicationContext applicationContext, ILogger<UserR
     return loadedUser ?? throw new EntityNotFoundException($"No user with the ID {id} could be found.");
   }
 
-  public async Task<User> CreateUserAsync(User user, CancellationToken cancellationToken)
+  public async Task<User> CreateAsync(User entity, CancellationToken cancellationToken)
   {
     try
     {
-      applicationContext.Users.Add(user);
+      applicationContext.Users.Add(entity);
       await applicationContext.SaveChangesAsync(cancellationToken);
-      return user;
+      return entity;
     }
     catch (Exception e)
     {
@@ -42,8 +43,9 @@ public class UserRepository(ApplicationContext applicationContext, ILogger<UserR
     }
   }
 
-  public async Task SaveChangesAsync(CancellationToken cancellationToken)
+  public async Task<User> UpdateAsync(User entity, CancellationToken cancellationToken)
   {
     await applicationContext.SaveChangesAsync(cancellationToken);
+    return entity;
   }
 }

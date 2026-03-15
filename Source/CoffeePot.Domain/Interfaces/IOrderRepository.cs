@@ -6,10 +6,7 @@ using CoffeePot.Domain.Interfaces.Common;
 
 namespace CoffeePot.Domain.Interfaces;
 
-public interface IOrderRepository : IRepository
+public interface IOrderRepository : IGenericRepository<Order>
 {
-  Task<IEnumerable<Order>> GetOrdersAsync(CancellationToken cancellationToken);
-  Task<IEnumerable<Order>> GetOrdersByUserIdAsync(int id, CancellationToken cancellationToken);
-  Task<Order> GetOrderByIdAsync(int id, CancellationToken cancellationToken);
-  Task<Order> CreateOrderAsync(Order order, CancellationToken cancellationToken);
+  Task<IEnumerable<Order>> GetByUserIdAsync(int id, CancellationToken cancellationToken);
 }

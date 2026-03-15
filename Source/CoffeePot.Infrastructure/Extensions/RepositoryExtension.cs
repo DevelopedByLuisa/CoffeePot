@@ -1,4 +1,6 @@
-﻿using CoffeePot.Domain.Interfaces;
+﻿using CoffeePot.Domain.Entities;
+using CoffeePot.Domain.Interfaces;
+using CoffeePot.Domain.Interfaces.Common;
 using CoffeePot.Infrastructure.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -9,8 +11,8 @@ public static class RepositoryExtension
   public static IServiceCollection InitializeRepositories(
     this IServiceCollection services)
   {
-    services.AddTransient<IProductRepository, ProductRepository>();
-    services.AddTransient<IUserRepository, UserRepository>();
+    services.AddTransient<IGenericRepository<Product>, ProductRepository>();
+    services.AddTransient<IGenericRepository<User>, UserRepository>();
     services.AddTransient<IOrderRepository, OrderRepository>();
 
     return services;

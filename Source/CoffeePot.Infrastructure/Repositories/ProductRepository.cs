@@ -5,21 +5,21 @@ using System.Threading;
 using System.Threading.Tasks;
 using CoffeePot.Domain.Entities;
 using CoffeePot.Domain.Exceptions;
-using CoffeePot.Domain.Interfaces;
+using CoffeePot.Domain.Interfaces.Common;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace CoffeePot.Infrastructure.Repositories;
 
 public class ProductRepository(ApplicationContext applicationContext, ILogger<ProductRepository> logger)
-  : IProductRepository
+  : IGenericRepository<Product>
 {
-  public async Task<IEnumerable<Product>> GetProductsAsync(CancellationToken cancellationToken)
+  public async Task<IEnumerable<Product>> GetAsync(CancellationToken cancellationToken)
   {
     return await applicationContext.Products.ToListAsync(cancellationToken);
   }
 
-  public async Task<Product> GetProductByIdAsync(int id, CancellationToken cancellationToken)
+  public async Task<Product> GetByIdAsync(int id, CancellationToken cancellationToken)
   {
     var loadedProduct = await applicationContext.Products.Where(x => x.Id == id)
       .FirstOrDefaultAsync(cancellationToken);
@@ -27,13 +27,13 @@ public class ProductRepository(ApplicationContext applicationContext, ILogger<Pr
     return loadedProduct ?? throw new EntityNotFoundException($"No product with the ID {id} could be found.");
   }
 
-  public async Task<Product> CreateProductAsync(Product product, CancellationToken cancellationToken)
+  public async Task<Product> CreateAsync(Product entity, CancellationToken cancellationToken)
   {
     try
     {
-      applicationContext.Products.Add(product);
+      applicationContext.Products.Add(entity);
       await applicationContext.SaveChangesAsync(cancellationToken);
-      return product;
+      return entity;
     }
     catch (Exception e)
     {
@@ -42,8 +42,9 @@ public class ProductRepository(ApplicationContext applicationContext, ILogger<Pr
     }
   }
 
-  public async Task SaveChangesAsync(CancellationToken cancellationToken)
+  public async Task<Product> UpdateAsync(Product entity, CancellationToken cancellationToken)
   {
     await applicationContext.SaveChangesAsync(cancellationToken);
+    return entity;
   }
 }

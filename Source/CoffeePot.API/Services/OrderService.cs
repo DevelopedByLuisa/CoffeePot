@@ -8,41 +8,42 @@ using CoffeePot.API.Mappers;
 using CoffeePot.Domain.Entities;
 using CoffeePot.Domain.Enumerations;
 using CoffeePot.Domain.Interfaces;
+using CoffeePot.Domain.Interfaces.Common;
 
 namespace CoffeePot.API.Services;
 
 public class OrderService(
   IOrderRepository orderRepository,
-  IUserRepository userRepository,
-  IProductRepository productRepository)
+  IGenericRepository<User> userRepository,
+  IGenericRepository<Product> productRepository)
 {
   public async Task<IEnumerable<OrderDto>> GetOrdersAsync(CancellationToken cancellationToken)
   {
-    var loadedOrders = await orderRepository.GetOrdersAsync(cancellationToken);
+    var loadedOrders = await orderRepository.GetAsync(cancellationToken);
     return loadedOrders.Select(OrderMapper.ConvertOrderIntoOrderDto).ToList();
   }
 
   public async Task<IEnumerable<OrderDto>> GetOrdersByUserIdAsync(int id, CancellationToken cancellationToken)
   {
-    var loadedOrders = await orderRepository.GetOrdersByUserIdAsync(id, cancellationToken);
+    var loadedOrders = await orderRepository.GetByUserIdAsync(id, cancellationToken);
     return loadedOrders.Select(OrderMapper.ConvertOrderIntoOrderDto).ToList();
   }
 
   public async Task<OrderDto> GetOrderByIdAsync(int id, CancellationToken cancellationToken)
   {
-    var loadedOrder = await orderRepository.GetOrderByIdAsync(id, cancellationToken);
+    var loadedOrder = await orderRepository.GetByIdAsync(id, cancellationToken);
     return OrderMapper.ConvertOrderIntoOrderDto(loadedOrder);
   }
 
   public async Task<OrderDto> CreateOrderAsync(WriteOrderDto writeOrderDto, CancellationToken cancellationToken)
   {
-    var user = await userRepository.GetUserByIdAsync(writeOrderDto.UserId, cancellationToken);
+    var user = await userRepository.GetByIdAsync(writeOrderDto.UserId, cancellationToken);
     var orderDetails = new List<OrderDetail>();
     decimal totalAmount = 0;
 
     foreach (var orderDetail in writeOrderDto.OrderDetails)
     {
-      var product = await productRepository.GetProductByIdAsync(orderDetail.ProductId, cancellationToken);
+      var product = await productRepository.GetByIdAsync(orderDetail.ProductId, cancellationToken);
       totalAmount += orderDetail.Quantity * product.UnitPrice;
 
       orderDetails.Add(new OrderDetail
@@ -53,13 +54,13 @@ public class OrderService(
 
     var order = new Order { OrderDetails = orderDetails, UserId = user.Id, TotalAmount = totalAmount };
 
-    var processedOrder = await orderRepository.CreateOrderAsync(order, cancellationToken);
+    var processedOrder = await orderRepository.CreateAsync(order, cancellationToken);
     return OrderMapper.ConvertOrderIntoOrderDto(processedOrder);
   }
 
   public async Task<OrderDto> CancelOrderAsync(int id, CancellationToken cancellationToken)
   {
-    var originalOrder = await orderRepository.GetOrderByIdAsync(id, cancellationToken);
+    var originalOrder = await orderRepository.GetByIdAsync(id, cancellationToken);
 
     if (originalOrder.Status == Status.Canceled)
     {
@@ -81,7 +82,7 @@ public class OrderService(
     };
 
     originalOrder.CancelOrder();
-    var processedOrder = await orderRepository.CreateOrderAsync(reversalOrder, cancellationToken);
+    var processedOrder = await orderRepository.CreateAsync(reversalOrder, cancellationToken);
     return OrderMapper.ConvertOrderIntoOrderDto(processedOrder);
   }
 }

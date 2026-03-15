@@ -14,7 +14,7 @@ namespace CoffeePot.Infrastructure.Repositories;
 public class OrderRepository(ApplicationContext applicationContext, ILogger<OrderRepository> logger)
   : IOrderRepository
 {
-  public async Task<IEnumerable<Order>> GetOrdersAsync(CancellationToken cancellationToken)
+  public async Task<IEnumerable<Order>> GetAsync(CancellationToken cancellationToken)
   {
     return await applicationContext.Orders
       .Include(order => order.User)
@@ -23,17 +23,7 @@ public class OrderRepository(ApplicationContext applicationContext, ILogger<Orde
       .ToListAsync(cancellationToken);
   }
 
-  public async Task<IEnumerable<Order>> GetOrdersByUserIdAsync(int userId, CancellationToken cancellationToken)
-  {
-    return await applicationContext.Orders
-      .Include(order => order.User)
-      .Include(order => order.OrderDetails)
-      .ThenInclude(orderDetail => orderDetail.Product)
-      .Where(order => order.UserId == userId)
-      .ToListAsync(cancellationToken);
-  }
-
-  public async Task<Order> GetOrderByIdAsync(int id, CancellationToken cancellationToken)
+  public async Task<Order> GetByIdAsync(int id, CancellationToken cancellationToken)
   {
     var loadedOrder = await applicationContext.Orders
       .Where(order => order.Id == id)
@@ -45,13 +35,13 @@ public class OrderRepository(ApplicationContext applicationContext, ILogger<Orde
     return loadedOrder ?? throw new EntityNotFoundException($"No order with the ID {id} could be found.");
   }
 
-  public async Task<Order> CreateOrderAsync(Order order, CancellationToken cancellationToken)
+  public async Task<Order> CreateAsync(Order entity, CancellationToken cancellationToken)
   {
     try
     {
-      applicationContext.Orders.Add(order);
+      applicationContext.Orders.Add(entity);
       await applicationContext.SaveChangesAsync(cancellationToken);
-      return order;
+      return entity;
     }
     catch (Exception e)
     {
@@ -60,8 +50,19 @@ public class OrderRepository(ApplicationContext applicationContext, ILogger<Orde
     }
   }
 
-  public async Task SaveChangesAsync(CancellationToken cancellationToken)
+  public async Task<Order> UpdateAsync(Order entity, CancellationToken cancellationToken)
   {
     await applicationContext.SaveChangesAsync(cancellationToken);
+    return entity;
+  }
+
+  public async Task<IEnumerable<Order>> GetByUserIdAsync(int userId, CancellationToken cancellationToken)
+  {
+    return await applicationContext.Orders
+      .Include(order => order.User)
+      .Include(order => order.OrderDetails)
+      .ThenInclude(orderDetail => orderDetail.Product)
+      .Where(order => order.UserId == userId)
+      .ToListAsync(cancellationToken);
   }
 }

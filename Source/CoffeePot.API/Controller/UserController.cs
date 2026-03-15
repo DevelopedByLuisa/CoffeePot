@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using CoffeePot.API.DTOs.User;
 using CoffeePot.API.Services;
-using CoffeePot.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -11,11 +10,9 @@ namespace CoffeePot.API.Controller;
 
 [ApiController]
 [Route("api/users")]
-public class UserController(IUserRepository userRepository, ILogger<UserController> logger)
+public class UserController(UserService userService, ILogger<UserController> logger)
   : ControllerBase
 {
-  private readonly UserService _userService = new(userRepository);
-
   /// <summary>
   ///   Returns a list of users.
   /// </summary>
@@ -25,7 +22,7 @@ public class UserController(IUserRepository userRepository, ILogger<UserControll
   public async Task<ActionResult<IEnumerable<UserDto>>> GetUsersAsync(bool includeDeleted,
     CancellationToken cancellationToken)
   {
-    return Ok(await _userService.GetUsersAsync(includeDeleted, cancellationToken));
+    return Ok(await userService.GetUsersAsync(includeDeleted, cancellationToken));
   }
 
   /// <summary>
@@ -36,7 +33,7 @@ public class UserController(IUserRepository userRepository, ILogger<UserControll
   [HttpGet("{id}")]
   public async Task<ActionResult<UserDto>> GetUserAsync(int id, CancellationToken cancellationToken)
   {
-    return await _userService.GetUserAsync(id, cancellationToken);
+    return await userService.GetUserAsync(id, cancellationToken);
   }
 
   /// <summary>
@@ -48,7 +45,7 @@ public class UserController(IUserRepository userRepository, ILogger<UserControll
   public async Task<ActionResult<UserDto>> CreateUserAsync([FromBody] WriteUserDto writeUserDto,
     CancellationToken cancellationToken)
   {
-    return await _userService.CreateUserAsync(writeUserDto, cancellationToken);
+    return await userService.CreateUserAsync(writeUserDto, cancellationToken);
   }
 
   /// <summary>
@@ -61,7 +58,7 @@ public class UserController(IUserRepository userRepository, ILogger<UserControll
   public async Task<ActionResult<UserDto>> UpdateUserAsync(int id, WriteUserDto writeUserDto,
     CancellationToken cancellationToken)
   {
-    return await _userService.UpdateUserAsync(id, writeUserDto, cancellationToken);
+    return await userService.UpdateUserAsync(id, writeUserDto, cancellationToken);
   }
 
   /// <summary>
@@ -72,6 +69,6 @@ public class UserController(IUserRepository userRepository, ILogger<UserControll
   [HttpDelete("{id}")]
   public async Task<ActionResult<UserDto>> DeleteUserAsync(int id, CancellationToken cancellationToken)
   {
-    return await _userService.DeleteUserAsync(id, cancellationToken);
+    return await userService.DeleteUserAsync(id, cancellationToken);
   }
 }

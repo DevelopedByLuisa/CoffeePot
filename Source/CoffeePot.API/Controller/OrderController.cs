@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using CoffeePot.API.DTOs.Order;
 using CoffeePot.API.Services;
-using CoffeePot.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -12,14 +11,10 @@ namespace CoffeePot.API.Controller;
 [ApiController]
 [Route("api/orders")]
 public class OrderController(
-  IOrderRepository orderRepository,
-  IUserRepository userRepository,
-  IProductRepository productRepository,
+  OrderService orderService,
   ILogger<OrderController> logger)
   : ControllerBase
 {
-  private readonly OrderService _orderService = new(orderRepository, userRepository, productRepository);
-
   /// <summary>
   ///   Returns a list of orders.
   /// </summary>
@@ -29,8 +24,8 @@ public class OrderController(
   public async Task<ActionResult<IEnumerable<OrderDto>>> GetOrdersAsync(int userId, CancellationToken cancellationToken)
   {
     return userId > 0
-      ? Ok(await _orderService.GetOrdersByUserIdAsync(userId, cancellationToken))
-      : Ok(await _orderService.GetOrdersAsync(cancellationToken));
+      ? Ok(await orderService.GetOrdersByUserIdAsync(userId, cancellationToken))
+      : Ok(await orderService.GetOrdersAsync(cancellationToken));
   }
 
   /// <summary>
@@ -41,7 +36,7 @@ public class OrderController(
   [HttpGet("{id}")]
   public async Task<ActionResult<OrderDto>> GetOrderAsync(int id, CancellationToken cancellationToken)
   {
-    return await _orderService.GetOrderByIdAsync(id, cancellationToken);
+    return await orderService.GetOrderByIdAsync(id, cancellationToken);
   }
 
   /// <summary>
@@ -53,7 +48,7 @@ public class OrderController(
   public async Task<ActionResult<OrderDto>> CreateOrderAsync([FromBody] WriteOrderDto writeOrderDto,
     CancellationToken cancellationToken)
   {
-    return await _orderService.CreateOrderAsync(writeOrderDto, cancellationToken);
+    return await orderService.CreateOrderAsync(writeOrderDto, cancellationToken);
   }
 
   /// <summary>
@@ -64,6 +59,6 @@ public class OrderController(
   [HttpDelete("{id}")]
   public async Task<ActionResult<OrderDto>> CancelOrderAsync(int id, CancellationToken cancellationToken)
   {
-    return await _orderService.CancelOrderAsync(id, cancellationToken);
+    return await orderService.CancelOrderAsync(id, cancellationToken);
   }
 }

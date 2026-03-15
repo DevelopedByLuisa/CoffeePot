@@ -33,6 +33,7 @@ public static class Program
     builder.Services.InitializeLogging();
     builder.Services.InitializeDatabase(connectionString);
     builder.Services.InitializeRepositories();
+    builder.Services.InitializeServices();
     builder.Services.AddControllers()
       .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 

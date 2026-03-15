@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using CoffeePot.API.DTOs.Product;
 using CoffeePot.API.Services;
-using CoffeePot.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -11,11 +10,9 @@ namespace CoffeePot.API.Controller;
 
 [ApiController]
 [Route("api/products")]
-public class ProductController(IProductRepository productRepository, ILogger<ProductController> logger)
+public class ProductController(ProductService productService, ILogger<ProductController> logger)
   : ControllerBase
 {
-  private readonly ProductService _productService = new(productRepository);
-
   /// <summary>
   ///   Returns a list of products.
   /// </summary>
@@ -25,7 +22,7 @@ public class ProductController(IProductRepository productRepository, ILogger<Pro
   public async Task<ActionResult<IEnumerable<ProductDto>>> GetProductsAsync(bool includeDeleted,
     CancellationToken cancellationToken)
   {
-    return Ok(await _productService.GetProductsAsync(includeDeleted, cancellationToken));
+    return Ok(await productService.GetProductsAsync(includeDeleted, cancellationToken));
   }
 
   /// <summary>
@@ -36,7 +33,7 @@ public class ProductController(IProductRepository productRepository, ILogger<Pro
   [HttpGet("{id}")]
   public async Task<ActionResult<ProductDto>> GetProductAsync(int id, CancellationToken cancellationToken)
   {
-    return await _productService.GetProductAsync(id, cancellationToken);
+    return await productService.GetProductAsync(id, cancellationToken);
   }
 
   /// <summary>
@@ -48,7 +45,7 @@ public class ProductController(IProductRepository productRepository, ILogger<Pro
   public async Task<ActionResult<ProductDto>> CreateProductAsync([FromBody] WriteProductDto writeProductDto,
     CancellationToken cancellationToken)
   {
-    return await _productService.CreateProductAsync(writeProductDto, cancellationToken);
+    return await productService.CreateProductAsync(writeProductDto, cancellationToken);
   }
 
   /// <summary>
@@ -61,7 +58,7 @@ public class ProductController(IProductRepository productRepository, ILogger<Pro
   public async Task<ActionResult<ProductDto>> UpdateProductAsync(int id, [FromBody] WriteProductDto writeProductDto,
     CancellationToken cancellationToken)
   {
-    return await _productService.UpdateProductAsync(id, writeProductDto, cancellationToken);
+    return await productService.UpdateProductAsync(id, writeProductDto, cancellationToken);
   }
 
   /// <summary>
@@ -72,6 +69,6 @@ public class ProductController(IProductRepository productRepository, ILogger<Pro
   [HttpDelete("{id}")]
   public async Task<ActionResult<ProductDto>> DeleteProductAsync(int id, CancellationToken cancellationToken)
   {
-    return await _productService.DeleteProductAsync(id, cancellationToken);
+    return await productService.DeleteProductAsync(id, cancellationToken);
   }
 }

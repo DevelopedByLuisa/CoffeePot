@@ -8,7 +8,7 @@ public class Product : BaseEntity
   public string Description { get; set; }
   public decimal UnitPrice { get; set; }
 
-  public void UpdateProduct(string name, string description, decimal unitPrice)
+  public void Update(string name, string description, decimal unitPrice)
   {
     Name = name;
     Description = description;

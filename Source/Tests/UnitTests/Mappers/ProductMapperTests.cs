@@ -3,7 +3,7 @@ using CoffeePot.Domain.Enumerations;
 using CoffeePot.API.Mappers;
 using Xunit;
 
-namespace Tests.Mappers;
+namespace Tests.UnitTests.Mappers;
 
 public class ProductMapperTests
 {

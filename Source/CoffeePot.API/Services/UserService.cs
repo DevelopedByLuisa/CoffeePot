@@ -22,7 +22,7 @@ public class UserService(IGenericRepository<User> userRepository)
   public async Task<UserDto> UpdateUserAsync(int id, WriteUserDto writeUserDto, CancellationToken cancellationToken)
   {
     var loadedUser = await userRepository.GetByIdAsync(id, cancellationToken);
-    loadedUser.UpdateUser(writeUserDto.Forename, writeUserDto.Surname, writeUserDto.Email);
+    loadedUser.Update(writeUserDto.Forename, writeUserDto.Surname, writeUserDto.Email);
 
     loadedUser = await userRepository.UpdateAsync(loadedUser, cancellationToken);
     return UserMapper.ConvertUserIntoUserDto(loadedUser);

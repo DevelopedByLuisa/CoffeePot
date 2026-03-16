@@ -18,6 +18,6 @@ public abstract class BaseEntity
   public void Delete()
   {
     Status = Status.Deleted;
-    ChangeDate = DateTime.Now;
+    RegisterChange();
   }
 }

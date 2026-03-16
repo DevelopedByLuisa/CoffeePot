@@ -23,7 +23,7 @@ public class ProductService(IGenericRepository<Product> productRepository)
     CancellationToken cancellationToken)
   {
     var loadedProduct = await productRepository.GetByIdAsync(id, cancellationToken);
-    loadedProduct.UpdateProduct(writeProductDto.Name, writeProductDto.Description, writeProductDto.UnitPrice);
+    loadedProduct.Update(writeProductDto.Name, writeProductDto.Description, writeProductDto.UnitPrice);
 
     loadedProduct = await productRepository.UpdateAsync(loadedProduct, cancellationToken);
     return ProductMapper.ConvertProductIntoProductDto(loadedProduct);

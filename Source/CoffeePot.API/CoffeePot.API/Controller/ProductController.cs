@@ -4,13 +4,12 @@ using System.Threading.Tasks;
 using CoffeePot.API.DTOs.Product;
 using CoffeePot.API.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace CoffeePot.API.Controller;
 
 [ApiController]
 [Route("api/products")]
-public class ProductController(ProductService productService, ILogger<ProductController> logger)
+public class ProductController(ProductService productService)
   : ControllerBase
 {
   /// <summary>

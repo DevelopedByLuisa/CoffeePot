@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Tests.UnitTests.Entities;
 
-public class ProductTests
+public class ProductTest
 {
   [Theory]
   [AutoData]

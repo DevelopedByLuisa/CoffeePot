@@ -26,7 +26,8 @@ public static class ApiDocumentationExtension
           Description = "A digital coffee fund for teams.",
           License = new OpenApiLicense
           {
-            Name = "License", Url = new Uri("https://github.com/DevelopedByLuisa/CoffeePot/blob/main/LICENSE")
+            Name = "License",
+            Url = new Uri("https://github.com/DevelopedByLuisa/CoffeePot/blob/main/LICENSE")
           },
           Title = "CoffeePot API",
           Version = "v1"

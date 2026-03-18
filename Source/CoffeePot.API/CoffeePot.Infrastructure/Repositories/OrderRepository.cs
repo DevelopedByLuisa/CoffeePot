@@ -56,13 +56,13 @@ public class OrderRepository(ApplicationContext applicationContext, ILogger<Orde
     return entity;
   }
 
-  public async Task<IEnumerable<Order>> GetByUserIdAsync(int userId, CancellationToken cancellationToken)
+  public async Task<IEnumerable<Order>> GetByUserIdAsync(int id, CancellationToken cancellationToken)
   {
     return await applicationContext.Orders
       .Include(order => order.User)
       .Include(order => order.OrderDetails)
       .ThenInclude(orderDetail => orderDetail.Product)
-      .Where(order => order.UserId == userId)
+      .Where(order => order.UserId == id)
       .ToListAsync(cancellationToken);
   }
 }

@@ -49,11 +49,11 @@ public class OrderMapperTest
       OrderDetails = orderDetails
     };
 
-    var sut = OrderMapper.ConvertOrderIntoOrderDto(order);
+    var result = OrderMapper.ConvertOrderIntoOrderDto(order);
 
-    Assert.Equal(order.Id, sut.Id);
-    Assert.Equal(order.CreationDate, sut.OrderDate);
-    Assert.Equal(userFullName, sut.Purchaser);
-    Assert.Equal(order.TotalAmount, sut.TotalAmount);
+    Assert.Equal(order.Id, result.Id);
+    Assert.Equal(order.CreationDate, result.OrderDate);
+    Assert.Equal(userFullName, result.Purchaser);
+    Assert.Equal(order.TotalAmount, result.TotalAmount);
   }
 }

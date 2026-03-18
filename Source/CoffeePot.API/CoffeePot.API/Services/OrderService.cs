@@ -48,7 +48,9 @@ public class OrderService(
 
       orderDetails.Add(new OrderDetail
       {
-        ProductId = product.Id, Quantity = orderDetail.Quantity, UnitPrice = product.UnitPrice
+        ProductId = product.Id,
+        Quantity = orderDetail.Quantity,
+        UnitPrice = product.UnitPrice
       });
     }
 
@@ -69,7 +71,9 @@ public class OrderService(
 
     var orderDetailsForReversalOrder = originalOrder.OrderDetails.Select(orderDetail => new OrderDetail
     {
-      ProductId = orderDetail.ProductId, Quantity = orderDetail.Quantity, UnitPrice = -orderDetail.UnitPrice
+      ProductId = orderDetail.ProductId,
+      Quantity = orderDetail.Quantity,
+      UnitPrice = -orderDetail.UnitPrice
     }).ToList();
 
     var reversalOrder = new Order

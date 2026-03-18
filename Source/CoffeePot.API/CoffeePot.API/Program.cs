@@ -41,7 +41,7 @@ public static class Program
     {
       builder.Services.InitializeApiDocumentation();
     }
-    
+
     builder.Services.AddCors(options =>
     {
       options.AddPolicy("AllowAll", policy =>

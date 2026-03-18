@@ -4,13 +4,12 @@ using System.Threading.Tasks;
 using CoffeePot.API.DTOs.User;
 using CoffeePot.API.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace CoffeePot.API.Controller;
 
 [ApiController]
 [Route("api/users")]
-public class UserController(UserService userService, ILogger<UserController> logger)
+public class UserController(UserService userService)
   : ControllerBase
 {
   /// <summary>

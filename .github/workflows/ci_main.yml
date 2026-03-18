@@ -11,7 +11,7 @@ on:
         - develop
 
 env:
-  SOLUTION: "Source/CoffeePot.sln"
+  SOLUTION: "Source/CoffeePot.API/CoffeePot.sln"
 
 jobs:
   build:

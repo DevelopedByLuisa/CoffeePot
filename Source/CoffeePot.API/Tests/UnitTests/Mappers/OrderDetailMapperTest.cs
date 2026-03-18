@@ -1,7 +1,6 @@
 ﻿using CoffeePot.API.Mappers;
 using CoffeePot.Domain.Entities;
 using CoffeePot.Domain.Enumerations;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel.Utilities;
 using Xunit;
 
 namespace Tests.UnitTests.Mappers;
@@ -25,10 +24,10 @@ public class OrderDetailMapperTest
       UnitPrice = 2.11M
     };
 
-    var sut = OrderDetailMapper.ConvertOrderDetailIntoOrderDetailDto(orderDetail);
+    var result = OrderDetailMapper.ConvertOrderDetailIntoOrderDetailDto(orderDetail);
 
-    Assert.Equal(orderDetail.Product.Name, sut.Product);
-    Assert.Equal(orderDetail.Quantity, sut.Quantity);
-    Assert.Equal(orderDetail.UnitPrice, sut.UnitPrice);
+    Assert.Equal(orderDetail.Product.Name, result.Product);
+    Assert.Equal(orderDetail.Quantity, result.Quantity);
+    Assert.Equal(orderDetail.UnitPrice, result.UnitPrice);
   }
 }

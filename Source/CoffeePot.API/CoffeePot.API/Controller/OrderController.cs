@@ -4,15 +4,13 @@ using System.Threading.Tasks;
 using CoffeePot.API.DTOs.Order;
 using CoffeePot.API.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace CoffeePot.API.Controller;
 
 [ApiController]
 [Route("api/orders")]
 public class OrderController(
-  OrderService orderService,
-  ILogger<OrderController> logger)
+  OrderService orderService)
   : ControllerBase
 {
   /// <summary>

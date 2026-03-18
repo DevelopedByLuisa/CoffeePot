@@ -482,3 +482,27 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
+##
+## CoffeePot.Web (React)
+##
+
+# dependencies
+Source/CoffeePot.Web/node_modules
+
+# testing
+Source/CoffeePot.Web/coverage
+
+# production build
+Source/CoffeePot.Web/build
+
+# misc
+Source/CoffeePot.Web/.env.local
+Source/CoffeePot.Web/.env.development.local
+Source/CoffeePot.Web/.env.test.local
+Source/CoffeePot.Web/.env.production.local
+
+# npm logs
+Source/CoffeePot.Web/npm-debug.log*
+Source/CoffeePot.Web/yarn-debug.log*
+Source/CoffeePot.Web/yarn-error.log*

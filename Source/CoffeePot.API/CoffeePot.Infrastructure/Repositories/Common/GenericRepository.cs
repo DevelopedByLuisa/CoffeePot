@@ -23,7 +23,7 @@ public class GenericRepository<T>(ApplicationContext applicationContext, ILogger
   {
     var loadedEntity = await applicationContext.Set<T>().Where(x => x.Id == id)
       .FirstOrDefaultAsync(cancellationToken);
-    return loadedEntity ?? throw new EntityNotFoundException($"No entity with the ID {id} could be found.");
+    return loadedEntity ?? throw new EntityNotFoundException($"No entity with ID {id} could be found.");
   }
 
   public async Task<T> CreateAsync(T entity, CancellationToken cancellationToken)

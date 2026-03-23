@@ -1,12 +1,17 @@
 using System;
 using System.Text.Json.Serialization;
 using CoffeePot.API.Extensions;
+using CoffeePot.Domain.Exceptions;
 using CoffeePot.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Serilog;
+using PriceTooLowException = CoffeePot.API.Exceptions.PriceTooLowException;
 
 namespace CoffeePot.API;
 
@@ -64,16 +69,28 @@ public static class Program
     {
       appError.Run(async context =>
       {
-        context.Response.StatusCode = 500;
+        var exceptionFeature = context.Features.Get<IExceptionHandlerFeature>();
+        var exception = exceptionFeature?.Error;
+
+        var (statusCode, message) = exception switch
+        {
+          PriceTooLowException e => (400, e.Message),
+          EntityNotFoundException e => (404, e.Message),
+          InvalidOperationException e => (400, e.Message),
+          _ => (500, "An internal server error occurred.Please check the log files for more details.")
+        };
+
+        context.Response.StatusCode = statusCode;
         context.Response.ContentType = "application/json";
 
         await context.Response.WriteAsJsonAsync(new
         {
-          StatusCode = 500,
-          Message = "An internal server error occurred. Please check the log files for more details."
+          StatusCode = statusCode,
+          Message = message
         });
       });
     });
+
     app.UseCors("AllowAll");
     app.UseRouting();
     app.MapControllers();

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CoffeePot.API.DTOs.Product;
+using CoffeePot.API.Exceptions;
 using CoffeePot.API.Mappers;
 using CoffeePot.Domain.Entities;
 using CoffeePot.Domain.Enumerations;
@@ -14,6 +15,7 @@ public class ProductService(IGenericRepository<Product> productRepository)
 {
   public async Task<ProductDto> CreateProductAsync(WriteProductDto writeProductDto, CancellationToken cancellationToken)
   {
+    ValidatePrice(writeProductDto.UnitPrice);
     var product = ProductMapper.ConvertWriteProductDtoIntoProduct(writeProductDto);
     var processedProduct = await productRepository.CreateAsync(product, cancellationToken);
     return ProductMapper.ConvertProductIntoProductDto(processedProduct);
@@ -22,6 +24,7 @@ public class ProductService(IGenericRepository<Product> productRepository)
   public async Task<ProductDto> UpdateProductAsync(int id, WriteProductDto writeProductDto,
     CancellationToken cancellationToken)
   {
+    ValidatePrice(writeProductDto.UnitPrice);
     var loadedProduct = await productRepository.GetByIdAsync(id, cancellationToken);
     loadedProduct.Update(writeProductDto.Name, writeProductDto.Description, writeProductDto.UnitPrice);
 
@@ -56,5 +59,13 @@ public class ProductService(IGenericRepository<Product> productRepository)
   {
     var loadedProduct = await productRepository.GetByIdAsync(id, cancellationToken);
     return ProductMapper.ConvertProductIntoProductDto(loadedProduct);
+  }
+
+  private static void ValidatePrice(decimal price)
+  {
+    if (price < 0)
+    {
+      throw new PriceTooLowException("The price cannot be less than 0.");
+    }
   }
 }

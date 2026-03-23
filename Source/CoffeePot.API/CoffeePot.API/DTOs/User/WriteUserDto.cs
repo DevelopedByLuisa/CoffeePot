@@ -2,5 +2,4 @@
 
 public record WriteUserDto(
   string Forename,
-  string Surname,
-  string Email);
+  string Surname);

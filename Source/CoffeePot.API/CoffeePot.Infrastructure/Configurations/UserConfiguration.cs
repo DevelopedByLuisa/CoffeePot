@@ -26,11 +26,6 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
       .HasMaxLength(255)
       .IsRequired();
 
-    builder.Property(user => user.Email)
-      .HasColumnName("email")
-      .HasMaxLength(255)
-      .IsRequired();
-
     builder.Property(user => user.CreationDate)
       .HasColumnName("creation_date")
       .HasColumnType("timestamp")

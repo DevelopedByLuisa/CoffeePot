@@ -35,7 +35,6 @@ public class OrderMapperTest
       Id = 34,
       Forename = "Test",
       Surname = "Testing",
-      Email = "test@test.local",
       Status = Status.Active
     };
     var userFullName = $"{user.Forename} {user.Surname}";

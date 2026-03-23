@@ -8,16 +8,15 @@ public class UserTest
 {
   [Theory]
   [AutoData]
-  public void Update_ShouldUpdatePropertiesAndChangeDate(string forename, string surname, string email)
+  public void Update_ShouldUpdatePropertiesAndChangeDate(string forename, string surname)
   {
-    var sut = new User { Forename = "Test", Surname = "Person", Email = "test@test.local" };
+    var sut = new User { Forename = "Test", Surname = "Person" };
     var changeDateBefore = sut.ChangeDate;
 
-    sut.Update(forename, surname, email);
+    sut.Update(forename, surname);
 
     Assert.Equal(forename, sut.Forename);
     Assert.Equal(surname, sut.Surname);
-    Assert.Equal(email, sut.Email);
     Assert.True(sut.ChangeDate >= changeDateBefore);
   }
 }

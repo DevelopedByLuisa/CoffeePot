@@ -16,7 +16,6 @@ public class UserMapperTest
 
     Assert.Equal(writeUserDto.Forename, result.Forename);
     Assert.Equal(writeUserDto.Surname, result.Surname);
-    Assert.Equal(writeUserDto.Email, result.Email);
   }
 
   [Theory]
@@ -28,7 +27,6 @@ public class UserMapperTest
     Assert.Equal(user.Id, result.Id);
     Assert.Equal(user.Forename, result.Forename);
     Assert.Equal(user.Surname, result.Surname);
-    Assert.Equal(user.Email, result.Email);
     Assert.Equal(user.Status, result.Status);
   }
 }

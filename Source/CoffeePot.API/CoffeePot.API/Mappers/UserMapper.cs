@@ -11,7 +11,7 @@ public static class UserMapper
   /// <param name="writeUserDto">The WriteUserDto.</param>
   public static User ConvertWriteUserDtoIntoUser(WriteUserDto writeUserDto)
   {
-    return new User { Forename = writeUserDto.Forename, Surname = writeUserDto.Surname, Email = writeUserDto.Email };
+    return new User { Forename = writeUserDto.Forename, Surname = writeUserDto.Surname };
   }
 
   /// <summary>
@@ -20,6 +20,6 @@ public static class UserMapper
   /// <param name="user">The User.</param>
   public static UserDto ConvertUserIntoUserDto(User user)
   {
-    return new UserDto(user.Id, user.Forename, user.Surname, user.Email, user.Status);
+    return new UserDto(user.Id, user.Forename, user.Surname, user.Status);
   }
 }

@@ -3,6 +3,6 @@
 public enum Status
 {
   Deleted = -1,
-  Active = 0,
-  Canceled = 1
+  Canceled = 0,
+  Active = 1
 }

@@ -17,16 +17,25 @@ public class OrderService(
   IGenericRepository<User> userRepository,
   IGenericRepository<Product> productRepository)
 {
-  public async Task<IEnumerable<OrderDto>> GetOrdersAsync(CancellationToken cancellationToken)
+  public async Task<IEnumerable<OrderDto>> GetOrdersAsync(bool includeCancelled, CancellationToken cancellationToken)
   {
     var loadedOrders = await orderRepository.GetAsync(cancellationToken);
-    return loadedOrders.Select(OrderMapper.ConvertOrderIntoOrderDto).ToList();
+
+    return includeCancelled
+      ? loadedOrders.Select(OrderMapper.ConvertOrderIntoOrderDto).ToList()
+      : loadedOrders.Where(order => order.Status != Status.Canceled).Select(OrderMapper.ConvertOrderIntoOrderDto)
+      .ToList();
   }
 
-  public async Task<IEnumerable<OrderDto>> GetOrdersByUserIdAsync(int id, CancellationToken cancellationToken)
+  public async Task<IEnumerable<OrderDto>> GetOrdersByUserIdAsync(int id, bool includeCancelled,
+    CancellationToken cancellationToken)
   {
     var loadedOrders = await orderRepository.GetByUserIdAsync(id, cancellationToken);
-    return loadedOrders.Select(OrderMapper.ConvertOrderIntoOrderDto).ToList();
+
+    return includeCancelled
+      ? loadedOrders.Select(OrderMapper.ConvertOrderIntoOrderDto).ToList()
+      : loadedOrders.Where(order => order.Status != Status.Canceled).Select(OrderMapper.ConvertOrderIntoOrderDto)
+      .ToList();
   }
 
   public async Task<OrderDto> GetOrderByIdAsync(int id, CancellationToken cancellationToken)
@@ -48,9 +57,7 @@ public class OrderService(
 
       orderDetails.Add(new OrderDetail
       {
-        ProductId = product.Id,
-        Quantity = orderDetail.Quantity,
-        UnitPrice = product.UnitPrice
+        ProductId = product.Id, Quantity = orderDetail.Quantity, UnitPrice = product.UnitPrice
       });
     }
 
@@ -71,9 +78,7 @@ public class OrderService(
 
     var orderDetailsForReversalOrder = originalOrder.OrderDetails.Select(orderDetail => new OrderDetail
     {
-      ProductId = orderDetail.ProductId,
-      Quantity = orderDetail.Quantity,
-      UnitPrice = -orderDetail.UnitPrice
+      ProductId = orderDetail.ProductId, Quantity = orderDetail.Quantity, UnitPrice = -orderDetail.UnitPrice
     }).ToList();
 
     var reversalOrder = new Order

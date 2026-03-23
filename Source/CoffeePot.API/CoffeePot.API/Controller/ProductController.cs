@@ -30,7 +30,7 @@ public class ProductController(ProductService productService)
   /// <param name="id">The Id.</param>
   /// <param name="cancellationToken">The CancellationToken.</param>
   [HttpGet("{id}")]
-  public async Task<ActionResult<ProductDto>> GetProductAsync(int id, CancellationToken cancellationToken)
+  public async Task<ActionResult<ProductDto>> GetProductByIdAsync(int id, CancellationToken cancellationToken)
   {
     return await productService.GetProductAsync(id, cancellationToken);
   }

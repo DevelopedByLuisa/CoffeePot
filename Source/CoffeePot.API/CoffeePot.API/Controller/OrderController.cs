@@ -17,13 +17,14 @@ public class OrderController(
   ///   Returns a list of orders.
   /// </summary>
   /// <param name="userId">The User ID.</param>
+  /// <param name="includeCancelled">Include cancelled orders.</param>
   /// <param name="cancellationToken">The CancellationToken.</param>
   [HttpGet]
-  public async Task<ActionResult<IEnumerable<OrderDto>>> GetOrdersAsync(int userId, CancellationToken cancellationToken)
+  public async Task<ActionResult<IEnumerable<OrderDto>>> GetOrdersAsync(int userId, bool includeCancelled, CancellationToken cancellationToken)
   {
     return userId > 0
-      ? Ok(await orderService.GetOrdersByUserIdAsync(userId, cancellationToken))
-      : Ok(await orderService.GetOrdersAsync(cancellationToken));
+      ? Ok(await orderService.GetOrdersByUserIdAsync(userId, includeCancelled, cancellationToken))
+      : Ok(await orderService.GetOrdersAsync(includeCancelled, cancellationToken));
   }
 
   /// <summary>
@@ -32,7 +33,7 @@ public class OrderController(
   /// <param name="id">The Id.</param>
   /// <param name="cancellationToken">The CancellationToken</param>
   [HttpGet("{id}")]
-  public async Task<ActionResult<OrderDto>> GetOrderAsync(int id, CancellationToken cancellationToken)
+  public async Task<ActionResult<OrderDto>> GetOrderByIdAsync(int id, CancellationToken cancellationToken)
   {
     return await orderService.GetOrderByIdAsync(id, cancellationToken);
   }

@@ -35,7 +35,6 @@ CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `forename` varchar(255) NOT NULL,
   `surname` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
   `creation_date` timestamp NOT NULL,
   `change_date` timestamp NOT NULL,
   `status` int(11) NOT NULL

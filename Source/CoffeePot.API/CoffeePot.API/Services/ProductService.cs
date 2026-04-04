@@ -55,7 +55,7 @@ public class ProductService(IGenericRepository<Product> productRepository)
       .Select(ProductMapper.ConvertProductIntoProductDto);
   }
 
-  public async Task<ProductDto> GetProductAsync(int id, CancellationToken cancellationToken)
+  public async Task<ProductDto> GetProductByIdAsync(int id, CancellationToken cancellationToken)
   {
     var loadedProduct = await productRepository.GetByIdAsync(id, cancellationToken);
     return ProductMapper.ConvertProductIntoProductDto(loadedProduct);

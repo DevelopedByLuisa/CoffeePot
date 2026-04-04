@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,6 +9,8 @@ namespace CoffeePot.API.Extensions;
 
 public static class ApiDocumentationExtension
 {
+  [SuppressMessage("SonarQube", "S1075",
+    Justification = "The URLs are static and reference stable resources that are not expected to change.")]
   public static IServiceCollection InitializeApiDocumentation(
     this IServiceCollection services)
   {
@@ -26,8 +29,7 @@ public static class ApiDocumentationExtension
           Description = "A digital coffee fund for teams.",
           License = new OpenApiLicense
           {
-            Name = "License",
-            Url = new Uri("https://github.com/DevelopedByLuisa/CoffeePot/blob/main/LICENSE")
+            Name = "License", Url = new Uri("https://github.com/DevelopedByLuisa/CoffeePot/blob/main/LICENSE")
           },
           Title = "CoffeePot API",
           Version = "v1"

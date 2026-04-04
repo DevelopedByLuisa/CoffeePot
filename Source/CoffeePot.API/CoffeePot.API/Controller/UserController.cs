@@ -30,9 +30,9 @@ public class UserController(UserService userService)
   /// <param name="id">The Id.</param>
   /// <param name="cancellationToken">The CancellationToken.</param>
   [HttpGet("{id}")]
-  public async Task<ActionResult<UserDto>> GetUserAsync(int id, CancellationToken cancellationToken)
+  public async Task<ActionResult<UserDto>> GetUserByIdAsync(int id, CancellationToken cancellationToken)
   {
-    return await userService.GetUserAsync(id, cancellationToken);
+    return await userService.GetUserByIdAsync(id, cancellationToken);
   }
 
   /// <summary>

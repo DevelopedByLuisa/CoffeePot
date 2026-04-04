@@ -51,7 +51,7 @@ public class UserService(IGenericRepository<User> userRepository)
       .Select(UserMapper.ConvertUserIntoUserDto);
   }
 
-  public async Task<UserDto> GetUserAsync(int id, CancellationToken cancellationToken)
+  public async Task<UserDto> GetUserByIdAsync(int id, CancellationToken cancellationToken)
   {
     var loadedUser = await userRepository.GetByIdAsync(id, cancellationToken);
     return UserMapper.ConvertUserIntoUserDto(loadedUser);

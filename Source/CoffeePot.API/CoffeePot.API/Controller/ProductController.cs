@@ -32,7 +32,7 @@ public class ProductController(ProductService productService)
   [HttpGet("{id}")]
   public async Task<ActionResult<ProductDto>> GetProductByIdAsync(int id, CancellationToken cancellationToken)
   {
-    return await productService.GetProductAsync(id, cancellationToken);
+    return await productService.GetProductByIdAsync(id, cancellationToken);
   }
 
   /// <summary>

@@ -1,5 +1,7 @@
-﻿namespace CoffeePot.API.DTOs.OrderDetail;
+﻿using System.Text.Json.Serialization;
+
+namespace CoffeePot.API.DTOs.OrderDetail;
 
 public record WriteOrderDetailDto(
-  int ProductId,
-  int Quantity);
+  [property: JsonRequired] int ProductId,
+  [property: JsonRequired] int Quantity);

@@ -1,6 +1,8 @@
-﻿namespace CoffeePot.API.DTOs.Product;
+﻿using System.Text.Json.Serialization;
+
+namespace CoffeePot.API.DTOs.Product;
 
 public record WriteProductDto(
-  string Name,
-  string Description,
-  decimal UnitPrice);
+  [property: JsonRequired] string Name,
+  [property: JsonRequired] string Description,
+  [property: JsonRequired] decimal UnitPrice);

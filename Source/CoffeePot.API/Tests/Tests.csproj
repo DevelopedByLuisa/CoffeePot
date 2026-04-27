@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutDir>..\..\..\Bin\CoffeePot.API\Tests</OutDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+    <PackageReference Include="Moq" />
+    <PackageReference Include="AutoFixture" />
+    <PackageReference Include="AutoFixture.Xunit3" />
+    <PackageReference Include="AutoFixture.AutoMoq" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CoffeePot.API\CoffeePot.API.csproj" />
+    <ProjectReference Include="..\CoffeePot.Domain\CoffeePot.Domain.csproj" />
+    <ProjectReference Include="..\CoffeePot.Infrastructure\CoffeePot.Infrastructure.csproj" />
+  </ItemGroup>
+</Project>

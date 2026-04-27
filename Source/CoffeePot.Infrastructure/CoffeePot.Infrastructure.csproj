@@ -1,5 +1,0 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-  <ItemGroup>
-    <ProjectReference Include="..\CoffeePot.Domain\CoffeePot.Domain.csproj" />
-  </ItemGroup>
-</Project>

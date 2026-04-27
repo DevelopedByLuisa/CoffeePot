@@ -16,8 +16,8 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
       .HasColumnName("id")
       .ValueGeneratedOnAdd();
 
-    builder.Property(order => order.UserId)
-      .HasColumnName("user_id")
+    builder.Property(order => order.ConsumerId)
+      .HasColumnName("consumer_id")
       .IsRequired();
 
     builder.Property(order => order.TotalAmount)
@@ -50,10 +50,10 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
       .HasForeignKey(order => order.OrderId)
       .OnDelete(DeleteBehavior.NoAction);
 
-    builder.HasOne(order => order.User)
+    builder.HasOne(order => order.Consumer)
       .WithMany()
-      .HasForeignKey(order => order.UserId)
-      .HasConstraintName("fk_user_id")
+      .HasForeignKey(order => order.ConsumerId)
+      .HasConstraintName("fk_consumer_id")
       .OnDelete(DeleteBehavior.NoAction);
   }
 }

@@ -7,6 +7,6 @@ namespace CoffeePot.API.DTOs.Order;
 public record OrderDto(
   int Id,
   DateTime OrderDate,
-  string Purchaser,
+  string Consumer,
   decimal TotalAmount,
   IEnumerable<OrderDetailDto> OrderDetails);

@@ -2,11 +2,6 @@
   <PropertyGroup>
     <OutDir>..\..\..\Bin\CoffeePot.API\Tests</OutDir>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Remove="IntegrationTests\**" />
-    <EmbeddedResource Remove="IntegrationTests\**" />
-    <None Remove="IntegrationTests\**" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="coverlet.collector" />

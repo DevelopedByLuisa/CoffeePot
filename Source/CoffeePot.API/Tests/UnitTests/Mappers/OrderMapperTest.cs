@@ -30,20 +30,20 @@ public class OrderMapperTest
       }
     };
 
-    var user = new User
+    var consumer = new Consumer
     {
       Id = 34,
       Forename = "Test",
       Surname = "Testing",
       Status = Status.Active
     };
-    var userFullName = $"{user.Forename} {user.Surname}";
+    var consumerFullName = $"{consumer.Forename} {consumer.Surname}";
 
     var order = new Order
     {
       Id = 231,
-      User = user,
-      UserId = 34,
+      Consumer = consumer,
+      ConsumerId = 34,
       TotalAmount = 0.44M,
       OrderDetails = orderDetails
     };
@@ -52,7 +52,7 @@ public class OrderMapperTest
 
     Assert.Equal(order.Id, result.Id);
     Assert.Equal(order.CreationDate, result.OrderDate);
-    Assert.Equal(userFullName, result.Purchaser);
+    Assert.Equal(consumerFullName, result.Consumer);
     Assert.Equal(order.TotalAmount, result.TotalAmount);
   }
 }

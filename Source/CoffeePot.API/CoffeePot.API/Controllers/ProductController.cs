@@ -5,7 +5,7 @@ using CoffeePot.API.DTOs.Product;
 using CoffeePot.API.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CoffeePot.API.Controller;
+namespace CoffeePot.API.Controllers;
 
 [ApiController]
 [Route("api/products")]

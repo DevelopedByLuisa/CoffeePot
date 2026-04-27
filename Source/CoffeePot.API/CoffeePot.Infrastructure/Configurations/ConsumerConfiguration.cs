@@ -4,39 +4,39 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CoffeePot.Infrastructure.Configurations;
 
-public class UserConfiguration : IEntityTypeConfiguration<User>
+public class ConsumerConfiguration : IEntityTypeConfiguration<Consumer>
 {
-  public void Configure(EntityTypeBuilder<User> builder)
+  public void Configure(EntityTypeBuilder<Consumer> builder)
   {
-    builder.ToTable("users");
+    builder.ToTable("consumers");
 
-    builder.HasKey(user => user.Id);
+    builder.HasKey(consumer => consumer.Id);
 
-    builder.Property(user => user.Id)
+    builder.Property(consumer => consumer.Id)
       .HasColumnName("id")
       .ValueGeneratedOnAdd();
 
-    builder.Property(user => user.Forename)
+    builder.Property(consumer => consumer.Forename)
       .HasColumnName("forename")
       .HasMaxLength(255)
       .IsRequired();
 
-    builder.Property(user => user.Surname)
+    builder.Property(consumer => consumer.Surname)
       .HasColumnName("surname")
       .HasMaxLength(255)
       .IsRequired();
 
-    builder.Property(user => user.CreationDate)
+    builder.Property(consumer => consumer.CreationDate)
       .HasColumnName("creation_date")
       .HasColumnType("timestamp")
       .IsRequired();
 
-    builder.Property(user => user.ChangeDate)
+    builder.Property(consumer => consumer.ChangeDate)
       .HasColumnName("change_date")
       .HasColumnType("timestamp")
       .IsRequired();
 
-    builder.Property(user => user.Status)
+    builder.Property(consumer => consumer.Status)
       .HasColumnName("status")
       .HasConversion<int>()
       .IsRequired();

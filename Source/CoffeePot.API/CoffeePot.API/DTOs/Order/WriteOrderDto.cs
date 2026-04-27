@@ -5,5 +5,5 @@ using CoffeePot.API.DTOs.OrderDetail;
 namespace CoffeePot.API.DTOs.Order;
 
 public record WriteOrderDto(
-  [property: JsonRequired] int UserId,
+  [property: JsonRequired] int ConsumerId,
   [property: JsonRequired] IEnumerable<WriteOrderDetailDto> OrderDetails);

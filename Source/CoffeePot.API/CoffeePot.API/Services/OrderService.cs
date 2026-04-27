@@ -14,7 +14,7 @@ namespace CoffeePot.API.Services;
 
 public class OrderService(
   IOrderRepository orderRepository,
-  IGenericRepository<User> userRepository,
+  IGenericRepository<Consumer> consumerRepository,
   IGenericRepository<Product> productRepository)
 {
   public async Task<IEnumerable<OrderDto>> GetOrdersAsync(bool includeCancelled, CancellationToken cancellationToken)
@@ -27,10 +27,10 @@ public class OrderService(
       .ToList();
   }
 
-  public async Task<IEnumerable<OrderDto>> GetOrdersByUserIdAsync(int id, bool includeCancelled,
+  public async Task<IEnumerable<OrderDto>> GetOrdersByConsumerIdAsync(int id, bool includeCancelled,
     CancellationToken cancellationToken)
   {
-    var loadedOrders = await orderRepository.GetByUserIdAsync(id, cancellationToken);
+    var loadedOrders = await orderRepository.GetByConsumerIdAsync(id, cancellationToken);
 
     return includeCancelled
       ? loadedOrders.Select(OrderMapper.ConvertOrderIntoOrderDto).ToList()
@@ -46,7 +46,7 @@ public class OrderService(
 
   public async Task<OrderDto> CreateOrderAsync(WriteOrderDto writeOrderDto, CancellationToken cancellationToken)
   {
-    var user = await userRepository.GetByIdAsync(writeOrderDto.UserId, cancellationToken);
+    var consumer = await consumerRepository.GetByIdAsync(writeOrderDto.ConsumerId, cancellationToken);
     var orderDetails = new List<OrderDetail>();
     decimal totalAmount = 0;
 
@@ -61,7 +61,7 @@ public class OrderService(
       });
     }
 
-    var order = new Order { OrderDetails = orderDetails, UserId = user.Id, TotalAmount = totalAmount };
+    var order = new Order { OrderDetails = orderDetails, ConsumerId = consumer.Id, TotalAmount = totalAmount };
 
     var processedOrder = await orderRepository.CreateAsync(order, cancellationToken);
     return OrderMapper.ConvertOrderIntoOrderDto(processedOrder);
@@ -83,7 +83,7 @@ public class OrderService(
 
     var reversalOrder = new Order
     {
-      UserId = originalOrder.UserId,
+      ConsumerId = originalOrder.ConsumerId,
       Annotation = $"Cancellation for order #{originalOrder.Id}",
       TotalAmount = -originalOrder.TotalAmount,
       OrderDetails = orderDetailsForReversalOrder,

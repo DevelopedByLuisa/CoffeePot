@@ -9,7 +9,7 @@ public static class ServiceExtension
     this IServiceCollection services)
   {
     services.AddTransient<ProductService>();
-    services.AddTransient<UserService>();
+    services.AddTransient<ConsumerService>();
     services.AddTransient<OrderService>();
 
     return services;

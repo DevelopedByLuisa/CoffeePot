@@ -8,5 +8,5 @@ namespace CoffeePot.Domain.Interfaces;
 
 public interface IOrderRepository : IGenericRepository<Order>
 {
-  Task<IEnumerable<Order>> GetByUserIdAsync(int id, CancellationToken cancellationToken);
+  Task<IEnumerable<Order>> GetByConsumerIdAsync(int id, CancellationToken cancellationToken);
 }

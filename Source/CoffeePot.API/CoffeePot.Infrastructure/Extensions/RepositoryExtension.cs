@@ -13,7 +13,7 @@ public static class RepositoryExtension
     this IServiceCollection services)
   {
     services.AddTransient<IGenericRepository<Product>, GenericRepository<Product>>();
-    services.AddTransient<IGenericRepository<User>, GenericRepository<User>>();
+    services.AddTransient<IGenericRepository<Consumer>, GenericRepository<Consumer>>();
     services.AddTransient<IOrderRepository, OrderRepository>();
 
     return services;

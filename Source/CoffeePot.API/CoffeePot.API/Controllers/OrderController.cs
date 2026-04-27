@@ -5,7 +5,7 @@ using CoffeePot.API.DTOs.Order;
 using CoffeePot.API.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CoffeePot.API.Controller;
+namespace CoffeePot.API.Controllers;
 
 [ApiController]
 [Route("api/orders")]
@@ -16,14 +16,14 @@ public class OrderController(
   /// <summary>
   ///   Returns a list of orders.
   /// </summary>
-  /// <param name="userId">The User ID.</param>
+  /// <param name="consumerId">The Consumer ID.</param>
   /// <param name="includeCancelled">Include cancelled orders.</param>
   /// <param name="cancellationToken">The CancellationToken.</param>
   [HttpGet]
-  public async Task<ActionResult<IEnumerable<OrderDto>>> GetOrdersAsync(int userId, bool includeCancelled, CancellationToken cancellationToken)
+  public async Task<ActionResult<IEnumerable<OrderDto>>> GetOrdersAsync(int consumerId, bool includeCancelled, CancellationToken cancellationToken)
   {
-    return userId > 0
-      ? Ok(await orderService.GetOrdersByUserIdAsync(userId, includeCancelled, cancellationToken))
+    return consumerId > 0
+      ? Ok(await orderService.GetOrdersByConsumerIdAsync(consumerId, includeCancelled, cancellationToken))
       : Ok(await orderService.GetOrdersAsync(includeCancelled, cancellationToken));
   }
 

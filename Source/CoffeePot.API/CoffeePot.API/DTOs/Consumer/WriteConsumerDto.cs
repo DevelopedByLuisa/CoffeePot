@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace CoffeePot.API.DTOs.User;
+namespace CoffeePot.API.DTOs.Consumer;
 
-public record WriteUserDto(
+public record WriteConsumerDto(
   [property: JsonRequired] string Forename,
   [property: JsonRequired] string Surname);

@@ -35,6 +35,7 @@ public static class Program
     {
       builder.Host.UseWindowsService();
     }
+
     builder.Services.InitializeLogging();
     builder.Services.InitializeDatabase(connectionString);
     builder.Services.InitializeRepositories();
@@ -47,15 +48,15 @@ public static class Program
       builder.Services.InitializeApiDocumentation();
     }
 
-    builder.Services.AddCors(options =>
-    {
-      options.AddPolicy("AllowAll", policy =>
-      {
-        policy.AllowAnyOrigin()
-          .AllowAnyMethod()
-          .AllowAnyHeader();
-      });
-    });
+    //builder.Services.AddCors(options =>
+    //{
+    //  options.AddPolicy("AllowFrontend", policy =>
+    //  {
+    //    policy.WithOrigins(allowedOrigins)
+    //      .AllowAnyMethod()
+    //      .AllowAnyHeader();
+    //  });
+    //});
 
     var app = builder.Build();
 
@@ -83,11 +84,7 @@ public static class Program
         context.Response.StatusCode = statusCode;
         context.Response.ContentType = "application/json";
 
-        await context.Response.WriteAsJsonAsync(new
-        {
-          StatusCode = statusCode,
-          Message = message
-        });
+        await context.Response.WriteAsJsonAsync(new { StatusCode = statusCode, Message = message });
       });
     });
 

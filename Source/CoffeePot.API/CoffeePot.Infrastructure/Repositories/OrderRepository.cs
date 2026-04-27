@@ -17,7 +17,7 @@ public class OrderRepository(ApplicationContext applicationContext, ILogger<Orde
   public async Task<IEnumerable<Order>> GetAsync(CancellationToken cancellationToken)
   {
     return await applicationContext.Orders
-      .Include(order => order.User)
+      .Include(order => order.Consumer)
       .Include(order => order.OrderDetails)
       .ThenInclude(orderDetail => orderDetail.Product)
       .ToListAsync(cancellationToken);
@@ -27,7 +27,7 @@ public class OrderRepository(ApplicationContext applicationContext, ILogger<Orde
   {
     var loadedOrder = await applicationContext.Orders
       .Where(order => order.Id == id)
-      .Include(order => order.User)
+      .Include(order => order.Consumer)
       .Include(order => order.OrderDetails)
       .ThenInclude(orderDetail => orderDetail.Product)
       .FirstOrDefaultAsync(cancellationToken);
@@ -56,13 +56,13 @@ public class OrderRepository(ApplicationContext applicationContext, ILogger<Orde
     return entity;
   }
 
-  public async Task<IEnumerable<Order>> GetByUserIdAsync(int id, CancellationToken cancellationToken)
+  public async Task<IEnumerable<Order>> GetByConsumerIdAsync(int id, CancellationToken cancellationToken)
   {
     return await applicationContext.Orders
-      .Include(order => order.User)
+      .Include(order => order.Consumer)
       .Include(order => order.OrderDetails)
       .ThenInclude(orderDetail => orderDetail.Product)
-      .Where(order => order.UserId == id)
+      .Where(order => order.ConsumerId == id)
       .ToListAsync(cancellationToken);
   }
 }

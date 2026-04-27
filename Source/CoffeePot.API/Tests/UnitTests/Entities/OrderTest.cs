@@ -13,7 +13,7 @@ public class OrderTest
     var sut = new Order
     {
       Id = 235,
-      UserId = 12,
+      ConsumerId = 12,
       TotalAmount = 22.58M,
       Annotation = string.Empty,
       OrderDetails = new List<OrderDetail>(),

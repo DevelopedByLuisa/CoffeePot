@@ -12,7 +12,7 @@ public static class OrderMapper
       .Select(OrderDetailMapper.ConvertOrderDetailIntoOrderDetailDto)
       .ToList();
 
-    return new OrderDto(order.Id, order.CreationDate, $"{order.User.Forename} {order.User.Surname}", order.TotalAmount,
+    return new OrderDto(order.Id, order.CreationDate, $"{order.Consumer.Forename} {order.Consumer.Surname}", order.TotalAmount,
       orderDetailDtos);
   }
 }

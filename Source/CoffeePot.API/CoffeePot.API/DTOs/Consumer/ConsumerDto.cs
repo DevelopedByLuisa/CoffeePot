@@ -1,8 +1,8 @@
 ﻿using CoffeePot.Domain.Enumerations;
 
-namespace CoffeePot.API.DTOs.User;
+namespace CoffeePot.API.DTOs.Consumer;
 
-public record UserDto(
+public record ConsumerDto(
   int Id,
   string Forename,
   string Surname,

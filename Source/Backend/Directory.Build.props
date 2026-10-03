@@ -1,0 +1,11 @@
+<Project>
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <OutDir>$(SolutionDir)\..\..\Bin</OutDir>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(MSBuildProjectName)' == 'Tests'">
+    <OutDir>$(SolutionDir)\..\..\Bin\Tests</OutDir>
+  </PropertyGroup>
+</Project>

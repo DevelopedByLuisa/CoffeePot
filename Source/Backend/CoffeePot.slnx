@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/Settings/">
+    <File Path="../../.editorconfig" />
+    <File Path="../../nuget.config" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+  </Folder>
+  <Project Path="CoffeePot.API/CoffeePot.API.csproj" />
+  <Project Path="CoffeePot.Domain/CoffeePot.Domain.csproj" />
+  <Project Path="CoffeePot.Infrastructure/CoffeePot.Infrastructure.csproj" />
+  <Project Path="Tests/Tests.csproj" Id="62100eb0-d0ad-4f8c-b3e4-350203c5c010" />
+</Solution>

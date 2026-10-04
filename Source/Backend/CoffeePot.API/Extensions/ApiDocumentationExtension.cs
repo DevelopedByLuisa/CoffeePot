@@ -23,11 +23,14 @@ public static class ApiDocumentationExtension
           Description = "The modern office beverage tally sheet alternative.",
           Contact = new OpenApiContact
           {
-            Name = "Luisa Snelinski", Url = new Uri("https://github.com/DevelopedByLuisa")
+            Name = "Luisa Snelinski",
+            Url = new Uri(new UriBuilder("https", "github.com", 443, "DevelopedByLuisa").ToString())
           },
           License = new OpenApiLicense
           {
-            Name = "MIT license", Url = new Uri("https://github.com/DevelopedByLuisa/CoffeePot/blob/main/LICENSE")
+            Name = "MIT license",
+            Url = new Uri(new UriBuilder("https", "github.com", 443, "DevelopedByLuisa/CoffeePot/blob/main/LICENSE")
+              .ToString())
           }
         });
 

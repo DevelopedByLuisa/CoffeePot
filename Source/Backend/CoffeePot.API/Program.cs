@@ -1,4 +1,6 @@
+using System;
 using CoffeePot.API.Extensions;
+using CoffeePot.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 
@@ -10,9 +12,16 @@ public static class Program
   {
     var builder = WebApplication.CreateBuilder(args);
     var enableApiDocumentation = builder.Configuration.GetValue<bool>("EnableApiDocumentation");
-    
+    var connectionString = Environment.GetEnvironmentVariable("CoffeePot");
+
+    if (connectionString == null)
+    {
+      return;
+    }
+
     builder.Services.AddApiDocumentation();
-    
+    builder.Services.AddDatabase(connectionString);
+
     var app = builder.Build();
 
     if (enableApiDocumentation)

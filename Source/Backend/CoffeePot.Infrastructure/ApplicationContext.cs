@@ -6,4 +6,9 @@ namespace CoffeePot.Infrastructure;
 public class ApplicationContext(DbContextOptions<ApplicationContext> contextOptions) : DbContext(contextOptions)
 {
   public DbSet<Product> Products { get; set; }
+
+  protected override void OnModelCreating(ModelBuilder modelBuilder)
+  {
+    modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationContext).Assembly);
+  }
 }

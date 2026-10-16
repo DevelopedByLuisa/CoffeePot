@@ -5,10 +5,10 @@ namespace CoffeePot.Domain.Entities.Common;
 
 public abstract class BaseEntity
 {
-  public int Id { get; set; }
-  public DateTime CreationDate { get; set; } = DateTime.UtcNow;
-  public DateTime ChangeDate { get; set; } = DateTime.UtcNow;
-  public Status Status { get; set; } = Status.Enabled;
+  public int Id { get; private set; }
+  public DateTime CreationDate { get; protected set; } = DateTime.UtcNow;
+  public DateTime ChangeDate { get; protected set; } = DateTime.UtcNow;
+  public Status Status { get; protected set; } = Status.Enabled;
 
   public void RegisterChange()
   {

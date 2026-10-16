@@ -3,6 +3,7 @@ using CoffeePot.API.Extensions;
 using CoffeePot.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace CoffeePot.API;
 
@@ -16,11 +17,13 @@ public static class Program
 
     if (connectionString == null)
     {
-      return;
+      throw new InvalidOperationException("The connection string for coffeepot has not been set or is missing.");
     }
 
     builder.Services.AddApiDocumentation();
     builder.Services.AddDatabase(connectionString);
+    builder.Services.AddRepositories();
+    builder.Services.AddControllers();
 
     var app = builder.Build();
 
@@ -30,6 +33,7 @@ public static class Program
       app.UseSwaggerUI();
     }
 
+    app.MapControllers();
     app.MapGet("/", () => "System is up!");
     app.Run();
   }

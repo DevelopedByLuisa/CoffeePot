@@ -3,7 +3,7 @@ using System.Threading;
 using CoffeePot.Domain.Entities;
 using Xunit;
 
-namespace Tests.UnitTests.Domain;
+namespace Tests.UnitTests.CoffeePot.Domain;
 
 public class ProductTest
 {

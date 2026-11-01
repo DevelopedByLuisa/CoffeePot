@@ -2,7 +2,7 @@
 using CoffeePot.Domain.Entities.Common;
 using CoffeePot.Domain.Enumerations;
 
-namespace Tests.UnitTests.Domain.Helpers;
+namespace Tests.UnitTests.CoffeePot.Domain.Helpers;
 
 /// <summary>
 ///   A TestEntity for testing purposes derived from the BaseEntity.

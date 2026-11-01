@@ -1,9 +1,9 @@
 ﻿using System;
 using CoffeePot.Domain.Enumerations;
-using Tests.UnitTests.Domain.Helpers;
+using Tests.UnitTests.CoffeePot.Domain.Helpers;
 using Xunit;
 
-namespace Tests.UnitTests.Domain;
+namespace Tests.UnitTests.CoffeePot.Domain;
 
 public class BaseEntityTest
 {

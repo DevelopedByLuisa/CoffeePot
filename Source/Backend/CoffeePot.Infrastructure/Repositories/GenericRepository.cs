@@ -27,7 +27,8 @@ public class GenericRepository<TEntity>(ApplicationContext applicationContext) :
 
   public async Task<TEntity> GetEntityByIdAsync(int id, CancellationToken cancellationToken)
   {
-    var loadedEntity = await applicationContext.Set<TEntity>().Where(entity => entity.Id == id).FirstOrDefaultAsync(cancellationToken);
+    var loadedEntity = await applicationContext.Set<TEntity>().Where(entity => entity.Id == id)
+      .FirstOrDefaultAsync(cancellationToken);
 
     return loadedEntity ?? throw new EntityNotFoundException();
   }
@@ -37,7 +38,7 @@ public class GenericRepository<TEntity>(ApplicationContext applicationContext) :
     try
     {
       applicationContext.Set<TEntity>().Add(entity);
-      await applicationContext.SaveChangesAsync(cancellationToken);
+      await SaveChangesAsync(cancellationToken);
       return entity;
     }
     catch (Exception e)

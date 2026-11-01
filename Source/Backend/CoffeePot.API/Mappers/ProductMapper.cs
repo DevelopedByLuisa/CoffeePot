@@ -12,6 +12,6 @@ public static class ProductMapper
 
   public static Product MapWriteProductDtoToProduct(WriteProductDto writeProductDto)
   {
-    return Product.Create(writeProductDto.Product, writeProductDto.Description, writeProductDto.UnitPrice);
+    return Product.Create(writeProductDto.Name, writeProductDto.Description, writeProductDto.UnitPrice);
   }
 }

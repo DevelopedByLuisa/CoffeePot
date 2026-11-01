@@ -6,7 +6,6 @@ using CoffeePot.API.DTOs.Product;
 using CoffeePot.API.Mappers;
 using CoffeePot.Domain.Entities;
 using CoffeePot.Domain.Repositories;
-using Microsoft.AspNetCore.Mvc;
 
 namespace CoffeePot.API.Services;
 
@@ -48,7 +47,7 @@ public class ProductService(IGenericRepository<Product> productRepository)
     CancellationToken cancellationToken)
   {
     var loadedProduct = await productRepository.GetEntityByIdAsync(id, cancellationToken);
-    loadedProduct.Update(writeProductDto.Product, writeProductDto.Description, writeProductDto.UnitPrice);
+    loadedProduct.Update(writeProductDto.Name, writeProductDto.Description, writeProductDto.UnitPrice);
     await productRepository.SaveChangesAsync(cancellationToken);
     return ProductMapper.MapProductToReadProductDto(loadedProduct);
   }
@@ -73,7 +72,7 @@ public class ProductService(IGenericRepository<Product> productRepository)
   /// <param name="writeProductDto">The WriteProductDto.</param>
   /// <param name="cancellationToken">The CancellationToken.</param>
   /// <returns>Returns the new created product of type <see cref="ReadProductDto"/>.</returns>
-  public async Task<ActionResult<ReadProductDto>> CreateProductAsync(WriteProductDto writeProductDto,
+  public async Task<ReadProductDto> CreateProductAsync(WriteProductDto writeProductDto,
     CancellationToken cancellationToken)
   {
     var product = ProductMapper.MapWriteProductDtoToProduct(writeProductDto);
